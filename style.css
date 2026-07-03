@@ -1168,3 +1168,13 @@ margin-bottom:14px;
   background: var(--red);
   opacity: 1;
 }
+
+.locked-method {
+    background: #fff8f8;
+    border: 2px solid #BB191A;
+    border-radius: 14px;
+    padding: 14px;
+    font-weight: 800;
+    color: #BB191A;
+    text-align: center;
+}
