@@ -577,7 +577,7 @@ function moveFlavorBatch(flavorName, currentWorkflow, nextWorkflow) {
   });
 
   renderKitchenBoard(kitchenOrders);
-  setTimeout(loadKitchen, 1200);
+  setTimeout(loadKitchen, 2500);
 }
   
 function escapeText(text) {
@@ -642,7 +642,11 @@ async function startBakeFlavor(flavorName) {
 
   readyOrders.forEach(order => {
     order.workflow = "BAKING";
+  });
 
+  renderKitchenBoard(kitchenOrders);
+
+  readyOrders.forEach(order => {
     fetch(SHEET_URL, {
       method: "POST",
       mode: "no-cors",
@@ -658,11 +662,8 @@ async function startBakeFlavor(flavorName) {
     });
   });
 
-  renderKitchenBoard(kitchenOrders);
-
-  setTimeout(loadKitchen, 1200);
+  setTimeout(loadKitchen, 2500);
 }
-
 function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
   const container = document.getElementById(containerId);
 
@@ -838,7 +839,7 @@ setInterval(() => {
   renderCoolingSummary("coolingList", kitchenOrders);
 }, 30000);
   
-loadKitchen();
+await loadKitchen();
 </script>
 
 </body>
