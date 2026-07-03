@@ -50,9 +50,26 @@
     margin-top: 8px;
   }
 
-  .task-board {
-  display: grid;
-  gap: 18px;
+ .kitchen-layout{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:22px;
+  align-items:start;
+}
+
+.mission-column{
+  display:grid;
+  gap:18px;
+}
+
+.stock-column{
+  position:sticky;
+  top:20px;
+}
+
+.stock-column .task-column{
+  max-height:85vh;
+  overflow-y:auto;
 }
 
 .task-column {
@@ -251,60 +268,65 @@
       <p class="subtitle">Good Morning Mira. Start your day with Bismillah.</p>
     </header>
 
-   <main class="task-board">
+   <main class="kitchen-layout">
 
-  <section class="task-column">
-    <h2>🚨 Verify Payment</h2>
-    <div id="verifyList" class="task-list">
-      <p class="empty">Loading...</p>
-    </div>
+  <section class="mission-column">
+
+    <section class="task-column">
+      <h2>🚨 Verify Payment</h2>
+      <div id="verifyList" class="task-list">
+        <p class="empty">Loading...</p>
+      </div>
+    </section>
+
+    <section class="task-column">
+      <h2>🔥 Bake</h2>
+      <div id="bakeList" class="task-list">
+        <p class="empty">Loading...</p>
+      </div>
+    </section>
+
+    <section class="task-column">
+      <h2>❄ Cooling</h2>
+      <div id="coolingList" class="task-list">
+        <p class="empty">Loading...</p>
+      </div>
+    </section>
+
+    <section class="task-column">
+      <h2>📦 Pack</h2>
+      <div id="packList" class="task-list">
+        <p class="empty">Loading...</p>
+      </div>
+    </section>
+
+    <section class="task-column">
+      <h2>🚚 Ship / Pickup</h2>
+      <div id="shipList" class="task-list">
+        <p class="empty">Loading...</p>
+      </div>
+    </section>
+
+    <section class="task-column notes">
+      <h2>📝 Staff Notes</h2>
+      <textarea placeholder="Example: Eggs running low, boxes left 8..."></textarea>
+      <button>Save Note</button>
+    </section>
+
   </section>
 
-  <section class="task-column">
-    <h2>🔥 Bake</h2>
-    <div id="bakeList" class="task-list">
-      <p class="empty">Loading...</p>
-    </div>
-  </section>
+  <aside class="stock-column">
 
-  <section class="task-column">
-    <h2>❄️ Cooling</h2>
-    <div id="coolingList" class="task-list">
-      <p class="empty">Loading...</p>
-    </div>
-  </section>
+    <section class="task-column">
+      <h2>🧊 Dough Stock</h2>
 
-  <section class="task-column">
-    <h2>📦 Pack</h2>
-    <div id="packList" class="task-list">
-      <p class="empty">Loading...</p>
-    </div>
-  </section>
+      <div id="doughStockList" class="task-list">
+        <p class="empty">Loading dough stock...</p>
+      </div>
 
-  <section class="task-column">
-    <h2>🚚 Ship / Pickup</h2>
-    <div id="shipList" class="task-list">
-      <p class="empty">Loading...</p>
-    </div>
-  </section>
+    </section>
 
-<section class="task-column">
-  <h2>🧊 Dough Stock</h2>
-
-  <div id="doughStockList" class="task-list">
-
-    <p class="empty">
-      Loading dough stock...
-    </p>
-
-  </div>
-</section>
-     
-  <section class="task-column notes">
-    <h2>📝 Staff Notes</h2>
-    <textarea placeholder="Example: Eggs running low, boxes left 8..."></textarea>
-    <button>Save Note</button>
-  </section>
+  </aside>
 
 </main>
   </div>
