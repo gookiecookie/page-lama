@@ -375,6 +375,42 @@
   }
 }
 
+.batch-card {
+  background: var(--soft);
+  border-radius: 18px;
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.batch-card p {
+  margin: 0;
+  color: var(--brown);
+}
+
+.batch-main-btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.oven-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  color: var(--brown);
+}
+
+.oven-check input {
+  width: 20px;
+  height: 20px;
+}
+
+.cooling-timer {
+  margin-top: 8px;
+  color: var(--red);
+  font-weight: 900;
+}
   
 </style>
 </head>
@@ -486,15 +522,180 @@ async function loadKitchen() {
 function renderKitchenBoard(orders) {
   renderTaskList("verifyList", orders, "NEW", "Verify", "READY_TO_BAKE");
 
-  renderProductionSummary("needBakeList", orders, "READY_TO_BAKE", "Start Baking", "BAKING");
-  renderProductionSummary("ovenList", orders, "BAKING", "Done Baking", "COOLING");
-
-  renderCoolingSummary("coolingList", orders);
+  renderNeedToBakeBatch("needBakeList", orders);
+  renderOvenBatch("ovenList", orders);
+  renderCoolingBatch("coolingList", orders);
 
   renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
   renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
 }
+function getFlavorTotalsByWorkflow(orders, workflow) {
+  const filteredOrders = orders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === workflow
+  );
 
+  const totals = {};
+
+  filteredOrders.forEach(order => {
+    parseItems(order.items).forEach(item => {
+      totals[item.name] = (totals[item.name] || 0) + item.qty;
+    });
+  });
+
+  return {
+    orders: filteredOrders,
+    totals: Object.entries(totals)
+  };
+}
+
+function renderNeedToBakeBatch(containerId, orders) {
+  const container = document.getElementById(containerId);
+  const batch = getFlavorTotalsByWorkflow(orders, "READY_TO_BAKE");
+
+  if (!batch.orders.length) {
+    container.innerHTML = `<p class="empty">No cookies waiting.</p>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="batch-card">
+      ${batch.totals.map(([name, qty]) => `
+        <p><strong>${simplifyFlavorName(name)} x${qty}</strong></p>
+      `).join("")}
+
+      <button class="batch-main-btn" onclick="startWholeBatch()">
+        Start Baking
+      </button>
+    </div>
+  `;
+}
+
+function renderOvenBatch(containerId, orders) {
+  const container = document.getElementById(containerId);
+  const batch = getFlavorTotalsByWorkflow(orders, "BAKING");
+
+  if (!batch.orders.length) {
+    container.innerHTML = `<p class="empty">Nothing in the oven.</p>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="batch-card">
+      ${batch.totals.map(([name, qty]) => `
+        <label class="oven-check">
+          <input type="checkbox" class="ovenFlavorCheck">
+          <span>${simplifyFlavorName(name)} x${qty}</span>
+        </label>
+      `).join("")}
+
+      <button class="batch-main-btn" onclick="doneWholeBatch()">
+        Done Baking
+      </button>
+    </div>
+  `;
+}
+
+function renderCoolingBatch(containerId, orders) {
+  const container = document.getElementById(containerId);
+  const batch = getFlavorTotalsByWorkflow(orders, "COOLING");
+
+  if (!batch.orders.length) {
+    container.innerHTML = `<p class="empty">No cookies cooling.</p>`;
+    return;
+  }
+
+  const coolingStart = batch.orders
+    .map(order => order.coolingStarted)
+    .filter(Boolean)
+    .sort()[0];
+
+  container.innerHTML = `
+    <div class="batch-card cooling-card">
+      ${batch.totals.map(([name, qty]) => `
+        <p><strong>${simplifyFlavorName(name)} x${qty}</strong></p>
+      `).join("")}
+
+      <div class="cooling-timer">
+        ${getCoolingReadyText(coolingStart)}
+      </div>
+
+      <button class="batch-main-btn" onclick="moveWholeBatch('COOLING', 'READY_TO_PACK')">
+        Move to Pack
+      </button>
+    </div>
+  `;
+}
+
+function getCoolingReadyText(startTime) {
+  if (!startTime) return "Cooling timer starting...";
+
+  const start = new Date(startTime);
+  const readyAt = new Date(start.getTime() + 90 * 60000);
+  const now = new Date();
+
+  const remainingMinutes = Math.ceil((readyAt - now) / 60000);
+
+  if (remainingMinutes <= 0) {
+    return `✅ Ready to pack now`;
+  }
+
+  return `Will be ready at ${readyAt.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  })} • ${remainingMinutes} min left`;
+}
+
+function startWholeBatch() {
+  moveWholeBatch("READY_TO_BAKE", "BAKING");
+}
+
+function doneWholeBatch() {
+  const checks = document.querySelectorAll(".ovenFlavorCheck");
+  const allChecked = Array.from(checks).every(check => check.checked);
+
+  if (!allChecked) {
+    alert("Please tick all flavors before Done Baking.");
+    return;
+  }
+
+  moveWholeBatch("BAKING", "COOLING");
+}
+
+function moveWholeBatch(currentWorkflow, nextWorkflow) {
+  const matchingOrders = kitchenOrders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === currentWorkflow
+  );
+
+  matchingOrders.forEach(order => {
+    order.workflow = nextWorkflow;
+
+    if (nextWorkflow === "COOLING") {
+      order.coolingStarted = new Date().toISOString();
+    }
+
+    fetch(SHEET_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+        action: "updateStatus",
+        orderID: order.orderID,
+        paymentStatus: order.paymentStatus || "VERIFIED",
+        workflow: nextWorkflow
+      })
+    });
+  });
+
+  renderKitchenBoard(kitchenOrders);
+
+  setTimeout(() => {
+    syncingDoughStock = false;
+    loadKitchen();
+  }, 2500);
+}
+  
 function renderProductionSummary(containerId, orders, workflow, buttonText, nextWorkflow) {
   const container = document.getElementById(containerId);
 
@@ -906,7 +1107,7 @@ function renderDoughStock(stock) {
   });
 }
 setInterval(() => {
-  renderCoolingSummary("coolingList", kitchenOrders);
+  renderCoolingBatch("coolingList", kitchenOrders);
 }, 30000);
   
 loadKitchen();
