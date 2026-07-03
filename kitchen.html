@@ -678,13 +678,12 @@ function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow)
   container.innerHTML = list.map(order => `
     <div class="task-card compact-card">
       <div>
-        <strong>${order.orderID || "NO ID"}</strong>
-        <p>${order.name || "-"} • ${money(order.total)}</p>
-      </div>
+    <strong>${order.orderID || "NO ID"}</strong>
+</div>
 
-      <button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">
-        Open
-      </button>
+<button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">
+    ${buttonText}
+</button>
     </div>
   `).join("");
 }
