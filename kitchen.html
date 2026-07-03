@@ -272,6 +272,22 @@
       grid-template-columns: 1fr;
     }
   }
+
+.bake-summary-card {
+  display: block;
+}
+
+.bake-summary-card strong {
+  color: var(--brown);
+  font-size: 15px;
+}
+
+.bake-summary-card p {
+  color: var(--red);
+  font-weight: 900;
+  margin-bottom: 0;
+}
+  
 </style>
 </head>
 
@@ -380,12 +396,44 @@ async function loadKitchen() {
 function renderKitchenBoard(orders) {
   renderTaskList("verifyList", orders, "NEW", "Verify", "READY_TO_BAKE");
 
-  renderTaskList("needBakeList", orders, "READY_TO_BAKE", "Start Baking", "BAKING");
+  renderBakeSummary("needBakeList", orders);
   renderTaskList("ovenList", orders, "BAKING", "Done", "COOLING");
 
   renderTaskList("coolingList", orders, "COOLING", "Move to Pack", "READY_TO_PACK");
   renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
   renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
+}
+
+function renderBakeSummary(containerId, orders) {
+  const container = document.getElementById(containerId);
+
+  const readyOrders = orders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === "READY_TO_BAKE"
+  );
+
+  const totals = {};
+
+  readyOrders.forEach(order => {
+    parseItems(order.items).forEach(item => {
+      totals[item.name] = (totals[item.name] || 0) + item.qty;
+    });
+  });
+
+  const flavors = Object.entries(totals);
+
+  if (flavors.length === 0) {
+    container.innerHTML = `<p class="empty">No cookies waiting to bake.</p>`;
+    return;
+  }
+
+  container.innerHTML = flavors.map(([name, qty]) => `
+    <div class="task-card bake-summary-card">
+      <div>
+        <strong>${name}</strong>
+        <p>${qty} cookies to bake</p>
+      </div>
+    </div>
+  `).join("");
 }
 
 function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
@@ -453,6 +501,24 @@ function money(amount) {
   return `RM${Number(amount || 0).toFixed(2)}`;
 }
 
+function parseItems(itemsText) {
+  return String(itemsText || "")
+    .split(",")
+    .map(item => item.trim())
+    .filter(Boolean)
+    .map(item => {
+      const match = item.match(/(.+)\s+x\s*(\d+)/i);
+
+      if (!match) return null;
+
+      return {
+        name: match[1].trim(),
+        qty: Number(match[2])
+      };
+    })
+    .filter(Boolean);
+}
+  
 function openTaskModal(orderID, buttonText, nextWorkflow) {
   const order = kitchenOrders.find(o => o.orderID === orderID);
 
