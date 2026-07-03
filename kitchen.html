@@ -174,17 +174,6 @@
         </label>
       `).join("")}
 
-      <div
-        id="ovenProgress"
-        style="
-          text-align:center;
-          font-weight:900;
-          color:#777;
-          margin-top:6px;
-        ">
-        0 / ${batch.totals.length} completed
-      </div>
-
       <button
         id="doneBakingBtn"
         class="batch-main-btn"
@@ -202,21 +191,14 @@
 
 function checkOvenCompletion() {
 
-  const checks =
-    document.querySelectorAll(".ovenFlavorCheck");
+  const checks = document.querySelectorAll(".ovenFlavorCheck");
+  const completed = document.querySelectorAll(".ovenFlavorCheck:checked").length;
 
-  const checked =
-    document.querySelectorAll(".ovenFlavorCheck:checked");
+  const button = document.getElementById("doneBakingBtn");
 
-  const total = checks.length;
+  if (!button) return;
 
-  const completed = checked.length;
-
-  document.getElementById("ovenProgress").innerHTML =
-    `${completed} / ${total} completed`;
-
-  document.getElementById("doneBakingBtn").disabled =
-    completed !== total;
+  button.disabled = completed !== checks.length;
 
 }
     
