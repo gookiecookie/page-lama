@@ -287,7 +287,27 @@
   font-weight: 900;
   margin-bottom: 0;
 }
-  
+
+.bake-flavor-card {
+  width: 100%;
+  background: var(--soft);
+  color: var(--brown);
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.bake-flavor-card span {
+  font-weight: 900;
+}
+
+.bake-flavor-card strong {
+  color: var(--red);
+  font-size: 20px;
+}
 </style>
 </head>
 
@@ -422,18 +442,65 @@ function renderBakeSummary(containerId, orders) {
   const flavors = Object.entries(totals);
 
   if (flavors.length === 0) {
-    container.innerHTML = `<p class="empty">No cookies waiting to bake.</p>`;
+    container.innerHTML = `<p class="empty">No cookies waiting.</p>`;
     return;
   }
 
   container.innerHTML = flavors.map(([name, qty]) => `
-    <div class="task-card bake-summary-card">
-      <div>
-        <strong>${name}</strong>
-        <p>${qty} cookies to bake</p>
-      </div>
-    </div>
+    <button
+      class="bake-flavor-card"
+      onclick="startBakeFlavor('${name.replace(/'/g, "\\'")}')">
+      <span>${simplifyFlavorName(name)}</span>
+      <strong>x${qty}</strong>
+    </button>
   `).join("");
+}
+
+function simplifyFlavorName(name) {
+  const map = {
+    "Classic Choc Chip": "Choc Chip",
+    "Dark Seasalt": "Dark Seasalt",
+    "Red Velvet": "Red Velvet",
+    "Matchadamia": "Matchadamia",
+    "OG S’mores": "S’mores",
+    "OG S'mores": "S’mores",
+    "Biscoff Lava": "Biscoff Lava",
+    "Choco Lava": "Choco Lava",
+    "Tiramisu Lava": "Tiramisu Lava"
+  };
+
+  return map[name] || name;
+}
+
+async function startBakeFlavor(flavorName) {
+  const readyOrders = kitchenOrders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === "READY_TO_BAKE" &&
+    parseItems(order.items).some(item => item.name === flavorName)
+  );
+
+  if (readyOrders.length === 0) return;
+
+  readyOrders.forEach(order => {
+    order.workflow = "BAKING";
+
+    fetch(SHEET_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+        action: "updateStatus",
+        orderID: order.orderID,
+        paymentStatus: order.paymentStatus || "VERIFIED",
+        workflow: "BAKING"
+      })
+    });
+  });
+
+  renderKitchenBoard(kitchenOrders);
+
+  setTimeout(loadKitchen, 1200);
 }
 
 function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
