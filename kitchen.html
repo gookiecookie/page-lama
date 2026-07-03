@@ -131,7 +131,17 @@
       const container = document.getElementById(containerId);
       const batch = getFlavorTotalsByWorkflow(orders, "BAKING");
       if (!batch.orders.length) { container.innerHTML = `<p class="empty">Nothing in the oven.</p>`; return; }
-      container.innerHTML = `<div class="batch-card">${batch.totals.map(([name, qty]) => `<label class="oven-check"><input type="checkbox" class="ovenFlavorCheck"><span>${simplifyFlavorName(name)} x${qty}</span></label>`).join("")}<button class="batch-main-btn" onclick="doneWholeBatch()">Done Baking</button></div>`;
+      container.innerHTML = `<div class="batch-card">${batch.totals.map(([name, qty]) => `
+  <label class="oven-check">
+    <input
+      type="checkbox"
+      class="ovenFlavorCheck"
+      onchange="checkOvenCompletion()">
+
+    <span>${simplifyFlavorName(name)} x${qty}</span>
+  </label>
+`).join("")}
+<button class="batch-main-btn" onclick="doneWholeBatch()">Done Baking</button></div>`;
     }
 
     function renderCoolingBatch(containerId, orders) {
