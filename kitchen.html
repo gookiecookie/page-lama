@@ -468,7 +468,9 @@
 
 <script>
 let kitchenOrders = [];
-
+let syncingDoughStock = false;
+let previousDoughStock = {};
+  
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbxix-lKdXmQpFcSz4-H1EQoKzqx6MA6589jcVrH7A0KaEN7ErY9dfLZCL68R1Qt0MG-/exec";
 
 async function loadKitchen() {
@@ -682,6 +684,8 @@ async function startBakeFlavor(flavorName) {
   renderKitchenBoard(kitchenOrders);
 
   readyOrders.forEach(order => {
+    syncingDoughStock = true;
+renderDoughStockFromCurrentUI();
     fetch(SHEET_URL, {
       method: "POST",
       mode: "no-cors",
@@ -697,8 +701,21 @@ async function startBakeFlavor(flavorName) {
     });
   });
 
-  setTimeout(loadKitchen, 2500);
+  setTimeout(() => {
+  syncingDoughStock = false;
+  loadKitchen();
+}, 2500);
+
+function renderDoughStockFromCurrentUI() {
+  const currentStock = Object.entries(previousDoughStock).map(([flavor, readyDough]) => ({
+    flavor,
+    readyDough,
+    minimumStock: 0
+  }));
+
+  renderDoughStock(currentStock);
 }
+  
 function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
   const container = document.getElementById(containerId);
 
@@ -861,15 +878,32 @@ function renderDoughStock(stock) {
       icon = "🟡";
     }
 
+    const previous = previousDoughStock[item.flavor];
+    const isUpdated =
+      previous !== undefined &&
+      Number(previous) !== Number(item.readyDough);
+
+    const classes = [
+      "task-card",
+      "dough-stock-card",
+      syncingDoughStock ? "syncing" : "",
+      isUpdated ? "updated" : ""
+    ].join(" ");
+
     return `
-      <div class="task-card dough-stock-card">
+      <div class="${classes}">
         <strong>${item.flavor}</strong>
         <p>${item.readyDough} ${icon}</p>
       </div>
     `;
   }).join("");
-}
 
+  previousDoughStock = {};
+
+  stock.forEach(item => {
+    previousDoughStock[item.flavor] = item.readyDough;
+  });
+}
 setInterval(() => {
   renderCoolingSummary("coolingList", kitchenOrders);
 }, 30000);
