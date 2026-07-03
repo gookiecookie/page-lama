@@ -3,416 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Gookie Kitchen</title>
 
-<style>
-  :root {
-    --red: #bb191a;
-    --cream: #fff6ed;
-    --white: #ffffff;
-    --brown: #4b3027;
-    --muted: #7d6b63;
-    --line: #eadcd0;
-    --soft: #fff0e3;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: Arial, sans-serif;
-    background: var(--cream);
-    color: var(--brown);
-    padding: 20px;
-  }
-
-  .wrap {
-    max-width: 980px;
-    margin: 0 auto;
-  }
-
-  header {
-    margin-bottom: 24px;
-  }
-
-  h1 {
-    color: var(--red);
-    font-family: Georgia, serif;
-    font-size: 42px;
-  }
-
-  .subtitle {
-    color: var(--muted);
-    margin-top: 8px;
-  }
-
-  .kitchen-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 22px;
-    align-items: start;
-  }
-
-  .mission-column {
-    display: grid;
-    gap: 18px;
-  }
-
-  .stock-column {
-    position: sticky;
-    top: 20px;
-  }
-
-  .stock-column .task-column {
-    max-height: 85vh;
-    overflow-y: auto;
-  }
-
-  .task-column {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 24px;
-    padding: 18px;
-    box-shadow: 0 12px 28px rgba(75, 48, 39, 0.08);
-  }
-
-  .task-column h2 {
-    font-size: 22px;
-    margin-bottom: 14px;
-  }
-
-  .task-list {
-    display: grid;
-    gap: 12px;
-  }
-
-  .bake-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-
-  .bake-box {
-    background: #fff8f2;
-    border: 1px dashed var(--line);
-    border-radius: 20px;
-    padding: 14px;
-  }
-
-  .bake-box h3 {
-    font-size: 16px;
-    color: var(--red);
-    margin-bottom: 12px;
-  }
-
-  .task-card {
-    background: var(--soft);
-    border-radius: 18px;
-    padding: 14px;
-  }
-
-  .task-card strong {
-    display: block;
-    margin-bottom: 6px;
-  }
-
-  .task-card p {
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
-  .empty {
-    color: var(--muted);
-    background: var(--soft);
-    border-radius: 16px;
-    padding: 14px;
-  }
-
-  button {
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 999px;
-    padding: 14px 20px;
-    font-weight: 900;
-    cursor: pointer;
-  }
-
-  textarea {
-    width: 100%;
-    min-height: 120px;
-    border: 1px solid var(--line);
-    background: var(--soft);
-    border-radius: 18px;
-    padding: 14px;
-    font: inherit;
-    color: var(--brown);
-    outline: none;
-  }
-
-  .notes textarea {
-    margin-bottom: 12px;
-  }
-
-  .compact-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .task-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.45);
-    opacity: 0;
-    pointer-events: none;
-    transition: .25s;
-    z-index: 100;
-  }
-
-  .task-modal-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .task-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: min(520px, calc(100% - 32px));
-    max-height: 88vh;
-    overflow-y: auto;
-    background: var(--cream);
-    border-radius: 28px;
-    padding: 26px;
-    box-shadow: 0 24px 70px rgba(0,0,0,.25);
-    transform: translate(-50%, -50%) scale(.95);
-    opacity: 0;
-    pointer-events: none;
-    transition: .25s;
-    z-index: 101;
-  }
-
-  .task-modal.active {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  .close-modal-btn {
-    float: right;
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 50%;
-    background: white;
-    color: var(--brown);
-    font-size: 24px;
-  }
-
-  .modal-line {
-    margin: 10px 0;
-  }
-
-  .modal-line strong {
-    color: var(--red);
-  }
-
-  .whatsapp-btn {
-    display: block;
-    width: 100%;
-    margin: 18px 0 10px;
-    background: #25d366;
-    color: white;
-    text-align: center;
-    border-radius: 999px;
-    padding: 14px 20px;
-    font-weight: 900;
-    text-decoration: none;
-  }
-
-  .action-btn {
-    width: 100%;
-  }
-
-  .dough-stock-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-  }
-
-  .dough-stock-card strong {
-    margin-bottom: 0;
-    font-size: 14px;
-  }
-
-  .dough-stock-card p {
-    margin-bottom: 0;
-    font-weight: 900;
-    color: var(--red);
-  }
-
-  @media (max-width: 850px) {
-    .kitchen-layout {
-      grid-template-columns: 1fr;
-    }
-
-    .stock-column {
-      position: static;
-    }
-
-    .bake-split {
-      grid-template-columns: 1fr;
-    }
-  }
-
-.bake-summary-card {
-  display: block;
-}
-
-.bake-summary-card strong {
-  color: var(--brown);
-  font-size: 15px;
-}
-
-.bake-summary-card p {
-  color: var(--red);
-  font-weight: 900;
-  margin-bottom: 0;
-}
-
-.bake-flavor-card {
-  width: 100%;
-  background: var(--soft);
-  color: var(--brown);
-  border-radius: 18px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-align: left;
-}
-
-.bake-flavor-card span {
-  font-weight: 900;
-}
-
-.bake-flavor-card strong {
-  color: var(--red);
-  font-size: 20px;
-}
-
-.production-card {
-  width: 100%;
-  background: var(--soft);
-  border-radius: 18px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.production-card strong {
-  font-size: 16px;
-  color: var(--brown);
-}
-
-.production-card button {
-  padding: 10px 14px;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.cooling-card {
-  align-items: center;
-}
-
-.cooling-timer {
-  margin: 4px 0 0;
-  color: var(--red);
-  font-weight: 900;
-}
-
-.dough-stock-card.syncing {
-  opacity: 0.55;
-  position: relative;
-}
-
-.dough-stock-card.syncing::after {
-  content: "Syncing...";
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--red);
-  margin-left: 8px;
-}
-
-.dough-stock-card.updated {
-  animation: stockFlash 0.8s ease;
-}
-
-@keyframes stockFlash {
-  0% {
-    transform: scale(1);
-    background: var(--soft);
-  }
-
-  35% {
-    transform: scale(1.03);
-    background: #fff3bd;
-  }
-
-  100% {
-    transform: scale(1);
-    background: var(--soft);
-  }
-}
-
-.batch-card {
-  background: var(--soft);
-  border-radius: 18px;
-  padding: 16px;
-  display: grid;
-  gap: 10px;
-}
-
-.batch-card p {
-  margin: 0;
-  color: var(--brown);
-}
-
-.batch-main-btn {
-  width: 100%;
-  margin-top: 8px;
-}
-
-.oven-check {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 900;
-  color: var(--brown);
-}
-
-.oven-check input {
-  width: 20px;
-  height: 20px;
-}
-
-.cooling-timer {
-  margin-top: 8px;
-  color: var(--red);
-  font-weight: 900;
-}
-  
-</style>
+  <style>
+    :root { --red:#bb191a; --cream:#fff6ed; --white:#fff; --brown:#4b3027; --muted:#7d6b63; --line:#eadcd0; --soft:#fff0e3; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Arial,sans-serif; background:var(--cream); color:var(--brown); padding:20px; }
+    .wrap { max-width:980px; margin:0 auto; }
+    header { margin-bottom:24px; }
+    h1 { color:var(--red); font-family:Georgia,serif; font-size:42px; }
+    .subtitle { color:var(--muted); margin-top:8px; }
+    .kitchen-layout { display:grid; grid-template-columns:2fr 1fr; gap:22px; align-items:start; }
+    .mission-column { display:grid; gap:18px; }
+    .stock-column { position:sticky; top:20px; }
+    .stock-column .task-column { max-height:85vh; overflow-y:auto; }
+    .task-column { background:var(--white); border:1px solid var(--line); border-radius:24px; padding:18px; box-shadow:0 12px 28px rgba(75,48,39,.08); }
+    .task-column h2 { font-size:22px; margin-bottom:14px; }
+    .task-list { display:grid; gap:12px; }
+    .bake-split { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .bake-box { background:#fff8f2; border:1px dashed var(--line); border-radius:20px; padding:14px; }
+    .bake-box h3 { font-size:16px; color:var(--red); margin-bottom:12px; }
+    .task-card,.batch-card { background:var(--soft); border-radius:18px; padding:14px; }
+    .task-card strong,.batch-card strong { color:var(--brown); }
+    .empty { color:var(--muted); background:var(--soft); border-radius:16px; padding:14px; }
+    button { background:var(--red); color:white; border:none; border-radius:999px; padding:14px 20px; font-weight:900; cursor:pointer; }
+    textarea { width:100%; min-height:120px; border:1px solid var(--line); background:var(--soft); border-radius:18px; padding:14px; font:inherit; color:var(--brown); outline:none; }
+    .notes textarea { margin-bottom:12px; }
+    .compact-card { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .task-modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); opacity:0; pointer-events:none; transition:.25s; z-index:100; }
+    .task-modal-overlay.active { opacity:1; pointer-events:auto; }
+    .task-modal { position:fixed; top:50%; left:50%; width:min(520px, calc(100% - 32px)); max-height:88vh; overflow-y:auto; background:var(--cream); border-radius:28px; padding:26px; box-shadow:0 24px 70px rgba(0,0,0,.25); transform:translate(-50%,-50%) scale(.95); opacity:0; pointer-events:none; transition:.25s; z-index:101; }
+    .task-modal.active { opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+    .close-modal-btn { float:right; width:40px; height:40px; border-radius:50%; background:white; color:var(--brown); font-size:24px; }
+    .modal-line { margin:10px 0; }
+    .modal-line strong { color:var(--red); }
+    .whatsapp-btn { display:block; width:100%; margin:18px 0 10px; background:#25d366; color:white; text-align:center; border-radius:999px; padding:14px 20px; font-weight:900; text-decoration:none; }
+    .action-btn,.batch-main-btn { width:100%; margin-top:8px; }
+    .batch-card { display:grid; gap:10px; }
+    .batch-card p { margin:0; color:var(--brown); }
+    .oven-check { display:flex; align-items:center; gap:10px; font-weight:900; color:var(--brown); }
+    .oven-check input { width:20px; height:20px; }
+    .cooling-timer { margin-top:8px; color:var(--red); font-weight:900; }
+    .dough-stock-card { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 12px; }
+    .dough-stock-card strong { font-size:14px; }
+    .dough-stock-card p { font-weight:900; color:var(--red); }
+    .dough-stock-card.syncing { opacity:.55; }
+    .dough-stock-card.syncing::after { content:"Syncing..."; font-size:11px; font-weight:900; color:var(--red); }
+    .dough-stock-card.updated { animation:stockFlash .8s ease; }
+    @keyframes stockFlash { 0%{transform:scale(1);background:var(--soft);} 35%{transform:scale(1.03);background:#fff3bd;} 100%{transform:scale(1);background:var(--soft);} }
+    @media (max-width:850px){ .kitchen-layout{grid-template-columns:1fr;} .stock-column{position:static;} .bake-split{grid-template-columns:1fr;} }
+  </style>
 </head>
 
 <body>
@@ -423,695 +63,197 @@
     </header>
 
     <main class="kitchen-layout">
-
       <section class="mission-column">
-
-        <section class="task-column">
-          <h2>🚨 Awaiting Verifications</h2>
-          <div id="verifyList" class="task-list">
-            <p class="empty">Loading...</p>
-          </div>
-        </section>
-
-        <section class="task-column">
-          <h2>🔥 Bake</h2>
-
-          <div class="bake-split">
-            <div class="bake-box">
-              <h3>Need to be Baked</h3>
-              <div id="needBakeList" class="task-list">
-                <p class="empty">Loading...</p>
-              </div>
-            </div>
-
-            <div class="bake-box">
-              <h3>In the Oven</h3>
-              <div id="ovenList" class="task-list">
-                <p class="empty">Loading...</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="task-column">
-          <h2>❄ Cooling</h2>
-          <div id="coolingList" class="task-list">
-            <p class="empty">Loading...</p>
-          </div>
-        </section>
-
-        <section class="task-column">
-          <h2>📦 Pack</h2>
-          <div id="packList" class="task-list">
-            <p class="empty">Loading...</p>
-          </div>
-        </section>
-
-        <section class="task-column">
-          <h2>🚚 Ship / Pickup</h2>
-          <div id="shipList" class="task-list">
-            <p class="empty">Loading...</p>
-          </div>
-        </section>
-
-        <section class="task-column notes">
-          <h2>📝 Staff Notes</h2>
-          <textarea placeholder="Example: Eggs running low, boxes left 8..."></textarea>
-          <button>Save Note</button>
-        </section>
-
+        <section class="task-column"><h2>🚨 Awaiting Verification</h2><div id="verifyList" class="task-list"><p class="empty">Loading...</p></div></section>
+        <section class="task-column"><h2>🔥 Bake</h2><div class="bake-split"><div class="bake-box"><h3>Need to be Baked</h3><div id="needBakeList" class="task-list"><p class="empty">Loading...</p></div></div><div class="bake-box"><h3>In the Oven</h3><div id="ovenList" class="task-list"><p class="empty">Loading...</p></div></div></div></section>
+        <section class="task-column"><h2>❄ Cooling</h2><div id="coolingList" class="task-list"><p class="empty">Loading...</p></div></section>
+        <section class="task-column"><h2>📦 Pack</h2><div id="packList" class="task-list"><p class="empty">Loading...</p></div></section>
+        <section class="task-column"><h2>🚚 Ship / Pickup</h2><div id="shipList" class="task-list"><p class="empty">Loading...</p></div></section>
+        <section class="task-column notes"><h2>📝 Staff Notes</h2><textarea placeholder="Example: Eggs running low, boxes left 8..."></textarea><button>Save Note</button></section>
       </section>
-
-      <aside class="stock-column">
-        <section class="task-column">
-          <h2>🧊 Dough Stock</h2>
-
-          <div id="doughStockList" class="task-list">
-            <p class="empty">Loading dough stock...</p>
-          </div>
-        </section>
-      </aside>
-
+      <aside class="stock-column"><section class="task-column"><h2>🧊 Dough Stock</h2><div id="doughStockList" class="task-list"><p class="empty">Loading dough stock...</p></div></section></aside>
     </main>
   </div>
 
   <div class="task-modal-overlay" id="taskModalOverlay"></div>
+  <div class="task-modal" id="taskModal"><button class="close-modal-btn" onclick="closeTaskModal()">×</button><div id="taskModalContent"></div></div>
 
-  <div class="task-modal" id="taskModal">
-    <button class="close-modal-btn" onclick="closeTaskModal()">×</button>
-    <div id="taskModalContent"></div>
-  </div>
+  <script>
+    let kitchenOrders = [];
+    let syncingDoughStock = false;
+    let previousDoughStock = {};
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxix-lKdXmQpFcSz4-H1EQoKzqx6MA6589jcVrH7A0KaEN7ErY9dfLZCL68R1Qt0MG-/exec";
 
-<script>
-let kitchenOrders = [];
-let syncingDoughStock = false;
-let previousDoughStock = {};
-  
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbxix-lKdXmQpFcSz4-H1EQoKzqx6MA6589jcVrH7A0KaEN7ErY9dfLZCL68R1Qt0MG-/exec";
-
-async function loadKitchen() {
-  const response = await fetch(SHEET_URL);
-  const data = await response.json();
-
-  kitchenOrders = data.orders || [];
-
-  renderKitchenBoard(kitchenOrders);
-  renderDoughStock(data.doughStock || []);
-}
-
-function renderKitchenBoard(orders) {
-  renderTaskList("verifyList", orders, "NEW", "Verify", "READY_TO_BAKE");
-
-  renderNeedToBakeBatch("needBakeList", orders);
-  renderOvenBatch("ovenList", orders);
-  renderCoolingBatch("coolingList", orders);
-
-  renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
-  renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
-}
-function getFlavorTotalsByWorkflow(orders, workflow) {
-  const filteredOrders = orders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === workflow
-  );
-
-  const totals = {};
-
-  filteredOrders.forEach(order => {
-    parseItems(order.items).forEach(item => {
-      totals[item.name] = (totals[item.name] || 0) + item.qty;
-    });
-  });
-
-  return {
-    orders: filteredOrders,
-    totals: Object.entries(totals)
-  };
-}
-
-function renderNeedToBakeBatch(containerId, orders) {
-  const container = document.getElementById(containerId);
-  const batch = getFlavorTotalsByWorkflow(orders, "READY_TO_BAKE");
-
-  if (!batch.orders.length) {
-    container.innerHTML = `<p class="empty">No cookies waiting.</p>`;
-    return;
-  }
-
-  container.innerHTML = `
-    <div class="batch-card">
-      ${batch.totals.map(([name, qty]) => `
-        <p><strong>${simplifyFlavorName(name)} x${qty}</strong></p>
-      `).join("")}
-
-      <button class="batch-main-btn" onclick="startWholeBatch()">
-        Start Baking
-      </button>
-    </div>
-  `;
-}
-
-function renderOvenBatch(containerId, orders) {
-  const container = document.getElementById(containerId);
-  const batch = getFlavorTotalsByWorkflow(orders, "BAKING");
-
-  if (!batch.orders.length) {
-    container.innerHTML = `<p class="empty">Nothing in the oven.</p>`;
-    return;
-  }
-
-  container.innerHTML = `
-    <div class="batch-card">
-      ${batch.totals.map(([name, qty]) => `
-        <label class="oven-check">
-          <input type="checkbox" class="ovenFlavorCheck">
-          <span>${simplifyFlavorName(name)} x${qty}</span>
-        </label>
-      `).join("")}
-
-      <button class="batch-main-btn" onclick="doneWholeBatch()">
-        Done Baking
-      </button>
-    </div>
-  `;
-}
-
-function renderCoolingBatch(containerId, orders) {
-  const container = document.getElementById(containerId);
-  const batch = getFlavorTotalsByWorkflow(orders, "COOLING");
-
-  if (!batch.orders.length) {
-    container.innerHTML = `<p class="empty">No cookies cooling.</p>`;
-    return;
-  }
-
-  const coolingStart = batch.orders
-    .map(order => order.coolingStarted)
-    .filter(Boolean)
-    .sort()[0];
-
-  container.innerHTML = `
-    <div class="batch-card cooling-card">
-      ${batch.totals.map(([name, qty]) => `
-        <p><strong>${simplifyFlavorName(name)} x${qty}</strong></p>
-      `).join("")}
-
-      <div class="cooling-timer">
-        ${getCoolingReadyText(coolingStart)}
-      </div>
-
-      <button class="batch-main-btn" onclick="moveWholeBatch('COOLING', 'READY_TO_PACK')">
-        Move to Pack
-      </button>
-    </div>
-  `;
-}
-
-function getCoolingReadyText(startTime) {
-  if (!startTime) return "Cooling timer starting...";
-
-  const start = new Date(startTime);
-  const readyAt = new Date(start.getTime() + 90 * 60000);
-  const now = new Date();
-
-  const remainingMinutes = Math.ceil((readyAt - now) / 60000);
-
-  if (remainingMinutes <= 0) {
-    return `✅ Ready to pack now`;
-  }
-
-  return `Will be ready at ${readyAt.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit"
-  })} • ${remainingMinutes} min left`;
-}
-
-function startWholeBatch() {
-  moveWholeBatch("READY_TO_BAKE", "BAKING");
-}
-
-function doneWholeBatch() {
-  const checks = document.querySelectorAll(".ovenFlavorCheck");
-  const allChecked = Array.from(checks).every(check => check.checked);
-
-  if (!allChecked) {
-    alert("Please tick all flavors before Done Baking.");
-    return;
-  }
-
-  moveWholeBatch("BAKING", "COOLING");
-}
-
-function moveWholeBatch(currentWorkflow, nextWorkflow) {
-  const matchingOrders = kitchenOrders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === currentWorkflow
-  );
-
-  matchingOrders.forEach(order => {
-    order.workflow = nextWorkflow;
-
-    if (nextWorkflow === "COOLING") {
-      order.coolingStarted = new Date().toISOString();
+    async function loadKitchen() {
+      try {
+        const response = await fetch(SHEET_URL);
+        const data = await response.json();
+        kitchenOrders = data.orders || [];
+        renderKitchenBoard(kitchenOrders);
+        renderDoughStock(data.doughStock || []);
+      } catch (error) {
+        console.error("Kitchen load failed:", error);
+        showLoadError();
+      }
     }
 
-    fetch(SHEET_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain"
-      },
-      body: JSON.stringify({
-        action: "updateStatus",
-        orderID: order.orderID,
-        paymentStatus: order.paymentStatus || "VERIFIED",
-        workflow: nextWorkflow
-      })
-    });
-  });
+    function showLoadError() {
+      ["verifyList","needBakeList","ovenList","coolingList","packList","shipList"].forEach(id => {
+        document.getElementById(id).innerHTML = `<p class="empty">Failed to load.</p>`;
+      });
+      document.getElementById("doughStockList").innerHTML = `<p class="empty">Failed to load dough stock.</p>`;
+    }
 
-  renderKitchenBoard(kitchenOrders);
+    function renderKitchenBoard(orders) {
+      renderTaskList("verifyList", orders, "NEW", "Verify", "READY_TO_BAKE");
+      renderNeedToBakeBatch("needBakeList", orders);
+      renderOvenBatch("ovenList", orders);
+      renderCoolingBatch("coolingList", orders);
+      renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
+      renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
+    }
 
-  setTimeout(() => {
-    syncingDoughStock = false;
+    function getFlavorTotalsByWorkflow(orders, workflow) {
+      const filteredOrders = orders.filter(order => String(order.workflow || "").trim().toUpperCase() === workflow);
+      const totals = {};
+      filteredOrders.forEach(order => parseItems(order.items).forEach(item => { totals[item.name] = (totals[item.name] || 0) + item.qty; }));
+      return { orders: filteredOrders, totals: Object.entries(totals) };
+    }
+
+    function renderNeedToBakeBatch(containerId, orders) {
+      const container = document.getElementById(containerId);
+      const batch = getFlavorTotalsByWorkflow(orders, "READY_TO_BAKE");
+      if (!batch.orders.length) { container.innerHTML = `<p class="empty">No cookies waiting.</p>`; return; }
+      container.innerHTML = `<div class="batch-card">${batch.totals.map(([name, qty]) => `<p><strong>${simplifyFlavorName(name)} x${qty}</strong></p>`).join("")}<button class="batch-main-btn" onclick="startWholeBatch()">Start Baking</button></div>`;
+    }
+
+    function renderOvenBatch(containerId, orders) {
+      const container = document.getElementById(containerId);
+      const batch = getFlavorTotalsByWorkflow(orders, "BAKING");
+      if (!batch.orders.length) { container.innerHTML = `<p class="empty">Nothing in the oven.</p>`; return; }
+      container.innerHTML = `<div class="batch-card">${batch.totals.map(([name, qty]) => `<label class="oven-check"><input type="checkbox" class="ovenFlavorCheck"><span>${simplifyFlavorName(name)} x${qty}</span></label>`).join("")}<button class="batch-main-btn" onclick="doneWholeBatch()">Done Baking</button></div>`;
+    }
+
+    function renderCoolingBatch(containerId, orders) {
+      const container = document.getElementById(containerId);
+      const batch = getFlavorTotalsByWorkflow(orders, "COOLING");
+      if (!batch.orders.length) { container.innerHTML = `<p class="empty">No cookies cooling.</p>`; return; }
+      const coolingStart = batch.orders.map(order => order.coolingStarted).filter(Boolean).sort()[0];
+      container.innerHTML = `<div class="batch-card">${batch.totals.map(([name, qty]) => `<p><strong>${simplifyFlavorName(name)} x${qty}</strong></p>`).join("")}<div class="cooling-timer">${getCoolingReadyText(coolingStart)}</div><button class="batch-main-btn" onclick="moveWholeBatch('COOLING', 'READY_TO_PACK')">Move to Pack</button></div>`;
+    }
+
+    function getCoolingReadyText(startTime) {
+      if (!startTime) return "Cooling timer starting...";
+      const start = new Date(startTime);
+      const readyAt = new Date(start.getTime() + 90 * 60000);
+      const remainingMinutes = Math.ceil((readyAt - new Date()) / 60000);
+      if (remainingMinutes <= 0) return "✅ Ready to pack now";
+      return `Will be ready at ${readyAt.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" })} • ${remainingMinutes} min left`;
+    }
+
+    function startWholeBatch() { moveWholeBatch("READY_TO_BAKE", "BAKING"); }
+
+    function doneWholeBatch() {
+      const checks = document.querySelectorAll(".ovenFlavorCheck");
+      const allChecked = Array.from(checks).every(check => check.checked);
+      if (!allChecked) { alert("Please tick all flavors before Done Baking."); return; }
+      moveWholeBatch("BAKING", "COOLING");
+    }
+
+    function moveWholeBatch(currentWorkflow, nextWorkflow) {
+      const matchingOrders = kitchenOrders.filter(order => String(order.workflow || "").trim().toUpperCase() === currentWorkflow);
+      if (!matchingOrders.length) return;
+      if (nextWorkflow === "BAKING") { syncingDoughStock = true; renderDoughStockFromCurrentUI(); }
+      matchingOrders.forEach(order => {
+        order.workflow = nextWorkflow;
+        if (nextWorkflow === "COOLING") order.coolingStarted = new Date().toISOString();
+        postStatus(order.orderID, order.paymentStatus || "VERIFIED", nextWorkflow);
+      });
+      renderKitchenBoard(kitchenOrders);
+      setTimeout(() => { syncingDoughStock = false; loadKitchen(); }, 2500);
+    }
+
+    function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
+      const container = document.getElementById(containerId);
+      const list = orders.filter(order => String(order.workflow || "").trim().toUpperCase() === workflow);
+      if (!list.length) { container.innerHTML = `<p class="empty">No tasks here.</p>`; return; }
+      container.innerHTML = list.map(order => `<div class="task-card compact-card"><strong>${order.orderID || "NO ID"}</strong><button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">${buttonText}</button></div>`).join("");
+    }
+
+    function moveOrder(orderID, nextWorkflow) {
+      const order = kitchenOrders.find(order => order.orderID === orderID);
+      if (!order) { alert("Order not found."); return; }
+      const paymentStatus = nextWorkflow === "READY_TO_BAKE" ? "VERIFIED" : (order.paymentStatus || "PENDING");
+      order.paymentStatus = paymentStatus;
+      order.workflow = nextWorkflow;
+      renderKitchenBoard(kitchenOrders);
+      closeTaskModal();
+      postStatus(orderID, paymentStatus, nextWorkflow);
+      setTimeout(loadKitchen, 1500);
+    }
+
+    function postStatus(orderID, paymentStatus, workflow) {
+      fetch(SHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ action:"updateStatus", orderID, paymentStatus, workflow })
+      });
+    }
+
+    function openTaskModal(orderID, buttonText, nextWorkflow) {
+      const order = kitchenOrders.find(o => o.orderID === orderID);
+      if (!order) return;
+      document.getElementById("taskModalContent").innerHTML = `<h2>🍪 ${order.orderID}</h2><p class="modal-line">👤 ${order.name || "-"}</p><p class="modal-line">📱 ${order.phone || "-"}</p><p class="modal-line">${order.method === "delivery" ? "🚚 Delivery" : "🏠 Pickup"} • ${order.method === "delivery" ? (order.deliveryAddress || "-") : (order.pickupDate || "-")}</p><hr><p class="modal-line">🍪 ${String(order.items || "").replaceAll(",", "<br>🍪")}</p><hr><p class="modal-line">💰 <strong>${money(order.total)}</strong></p><p class="modal-line">📝 ${order.notes || "-"}</p><a class="whatsapp-btn" href="https://wa.me/${order.phone}" target="_blank">📱 Open WhatsApp</a><button class="action-btn" onclick="moveOrder('${order.orderID}','${nextWorkflow}')">${nextWorkflow === "READY_TO_BAKE" ? "✅ Verify Payment" : buttonText}</button>`;
+      document.getElementById("taskModalOverlay").classList.add("active");
+      document.getElementById("taskModal").classList.add("active");
+    }
+
+    function closeTaskModal() {
+      document.getElementById("taskModalOverlay").classList.remove("active");
+      document.getElementById("taskModal").classList.remove("active");
+    }
+
+    document.getElementById("taskModalOverlay").addEventListener("click", closeTaskModal);
+
+    function renderDoughStock(stock) {
+      const container = document.getElementById("doughStockList");
+      if (!stock.length) { container.innerHTML = `<p class="empty">No dough stock found.</p>`; return; }
+      container.innerHTML = stock.map(item => {
+        let icon = "🟢";
+        if (Number(item.readyDough) <= Number(item.minimumStock)) icon = "🔴";
+        else if (Number(item.readyDough) <= Number(item.minimumStock) + 5) icon = "🟡";
+        const previous = previousDoughStock[item.flavor];
+        const isUpdated = previous !== undefined && Number(previous) !== Number(item.readyDough);
+        const classes = ["task-card", "dough-stock-card", syncingDoughStock ? "syncing" : "", isUpdated ? "updated" : ""].join(" ");
+        return `<div class="${classes}"><strong>${item.flavor}</strong><p>${item.readyDough} ${icon}</p></div>`;
+      }).join("");
+      previousDoughStock = {};
+      stock.forEach(item => { previousDoughStock[item.flavor] = item.readyDough; });
+    }
+
+    function renderDoughStockFromCurrentUI() {
+      const currentStock = Object.entries(previousDoughStock).map(([flavor, readyDough]) => ({ flavor, readyDough, minimumStock: 0 }));
+      renderDoughStock(currentStock);
+    }
+
+    function money(amount) { return `RM${Number(amount || 0).toFixed(2)}`; }
+
+    function parseItems(itemsText) {
+      return String(itemsText || "").split(",").map(item => item.trim()).filter(Boolean).map(item => {
+        const match = item.match(/(.+)\s+x\s*(\d+)/i);
+        if (!match) return null;
+        return { name: match[1].trim(), qty: Number(match[2]) };
+      }).filter(Boolean);
+    }
+
+    function simplifyFlavorName(name) {
+      const map = { "Classic Choc Chip":"Choc Chip", "Dark Seasalt":"Dark Seasalt", "Red Velvet":"Red Velvet", "Matchadamia":"Matchadamia", "OG S’mores":"S’mores", "OG S'mores":"S’mores", "Biscoff Lava":"Biscoff Lava", "Choco Lava":"Choco Lava", "Tiramisu Lava":"Tiramisu Lava" };
+      return map[name] || name;
+    }
+
+    setInterval(() => { renderCoolingBatch("coolingList", kitchenOrders); }, 30000);
     loadKitchen();
-  }, 2500);
-}
-  
-function renderProductionSummary(containerId, orders, workflow, buttonText, nextWorkflow) {
-  const container = document.getElementById(containerId);
-
-  const filteredOrders = orders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === workflow
-  );
-
-  const totals = {};
-
-  filteredOrders.forEach(order => {
-    parseItems(order.items).forEach(item => {
-      totals[item.name] = (totals[item.name] || 0) + item.qty;
-    });
-  });
-
-  const flavors = Object.entries(totals);
-
-  if (flavors.length === 0) {
-    container.innerHTML = `<p class="empty">No cookies here.</p>`;
-    return;
-  }
-
-  container.innerHTML = flavors.map(([name, qty]) => `
-    <div class="production-card">
-      <strong>${simplifyFlavorName(name)} x${qty}</strong>
-
-      <button onclick="moveFlavorBatch('${escapeText(name)}', '${workflow}', '${nextWorkflow}')">
-        ${buttonText}
-      </button>
-    </div>
-  `).join("");
-}
-
-function renderCoolingSummary(containerId, orders) {
-  const container = document.getElementById(containerId);
-
-  const coolingOrders = orders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === "COOLING"
-  );
-
-  const totals = {};
-  const coolingTimes = {};
-
-  coolingOrders.forEach(order => {
-    parseItems(order.items).forEach(item => {
-      totals[item.name] = (totals[item.name] || 0) + item.qty;
-
-      if (!coolingTimes[item.name]) {
-        coolingTimes[item.name] = order.coolingStarted;
-      }
-    });
-  });
-
-  const flavors = Object.entries(totals);
-
-  if (flavors.length === 0) {
-    container.innerHTML = `<p class="empty">No cookies cooling.</p>`;
-    return;
-  }
-
-  container.innerHTML = flavors.map(([name, qty]) => `
-    <div class="production-card cooling-card">
-      <div>
-        <strong>${simplifyFlavorName(name)} x${qty}</strong>
-        <p class="cooling-timer">${getCoolingTimer(coolingTimes[name])}</p>
-      </div>
-
-      <button onclick="moveFlavorBatch('${escapeText(name)}', 'COOLING', 'READY_TO_PACK')">
-        Ready to Pack
-      </button>
-    </div>
-  `).join("");
-}
-
-function getCoolingTimer(startTime) {
-  if (!startTime) return "❄ Cooling timer starting...";
-
-  const start = new Date(startTime);
-  const now = new Date();
-
-  const elapsedMinutes = Math.floor((now - start) / 60000);
-  const remainingMinutes = 90 - elapsedMinutes;
-
-  if (remainingMinutes <= 0) {
-    return "✅ Cooling complete";
-  }
-
-  return `❄ ${remainingMinutes} min left`;
-}
-
-function moveFlavorBatch(flavorName, currentWorkflow, nextWorkflow) {
-  const matchingOrders = kitchenOrders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === currentWorkflow &&
-    parseItems(order.items).some(item => item.name === flavorName)
-  );
-
-  matchingOrders.forEach(order => {
-    order.workflow = nextWorkflow;
-
-    if (nextWorkflow === "COOLING") {
-      order.coolingStarted = new Date().toISOString();
-    }
-
-    fetch(SHEET_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain"
-      },
-      body: JSON.stringify({
-        action: "updateStatus",
-        orderID: order.orderID,
-        paymentStatus: order.paymentStatus || "VERIFIED",
-        workflow: nextWorkflow
-      })
-    });
-  });
-
-  renderKitchenBoard(kitchenOrders);
-  setTimeout(loadKitchen, 2500);
-}
-  
-function escapeText(text) {
-  return String(text).replace(/'/g, "\\'");
-}
-  
-function renderBakeSummary(containerId, orders) {
-  const container = document.getElementById(containerId);
-
-  const readyOrders = orders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === "READY_TO_BAKE"
-  );
-
-  const totals = {};
-
-  readyOrders.forEach(order => {
-    parseItems(order.items).forEach(item => {
-      totals[item.name] = (totals[item.name] || 0) + item.qty;
-    });
-  });
-
-  const flavors = Object.entries(totals);
-
-  if (flavors.length === 0) {
-    container.innerHTML = `<p class="empty">No cookies waiting.</p>`;
-    return;
-  }
-
-  container.innerHTML = flavors.map(([name, qty]) => `
-    <button
-      class="bake-flavor-card"
-      onclick="startBakeFlavor('${name.replace(/'/g, "\\'")}')">
-      <span>${simplifyFlavorName(name)}</span>
-      <strong>x${qty}</strong>
-    </button>
-  `).join("");
-}
-
-function simplifyFlavorName(name) {
-  const map = {
-    "Classic Choc Chip": "Choc Chip",
-    "Dark Seasalt": "Dark Seasalt",
-    "Red Velvet": "Red Velvet",
-    "Matchadamia": "Matchadamia",
-    "OG S’mores": "S’mores",
-    "OG S'mores": "S’mores",
-    "Biscoff Lava": "Biscoff Lava",
-    "Choco Lava": "Choco Lava",
-    "Tiramisu Lava": "Tiramisu Lava"
-  };
-
-  return map[name] || name;
-}
-
-async function startBakeFlavor(flavorName) {
-  const readyOrders = kitchenOrders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === "READY_TO_BAKE" &&
-    parseItems(order.items).some(item => item.name === flavorName)
-  );
-
-  if (readyOrders.length === 0) return;
-
-  readyOrders.forEach(order => {
-    order.workflow = "BAKING";
-  });
-
-  syncingDoughStock = true;
-  renderDoughStockFromCurrentUI();
-  renderKitchenBoard(kitchenOrders);
-
-  readyOrders.forEach(order => {
-    fetch(SHEET_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain"
-      },
-      body: JSON.stringify({
-        action: "updateStatus",
-        orderID: order.orderID,
-        paymentStatus: order.paymentStatus || "VERIFIED",
-        workflow: "BAKING"
-      })
-    });
-  });
-
-  setTimeout(() => {
-    syncingDoughStock = false;
-    loadKitchen();
-  }, 2500);
-}
-
-function renderDoughStockFromCurrentUI() {
-  const currentStock = Object.entries(previousDoughStock).map(([flavor, readyDough]) => ({
-    flavor: flavor,
-    readyDough: readyDough,
-    minimumStock: 0
-  }));
-
-  renderDoughStock(currentStock);
-}
-  
-function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
-  const container = document.getElementById(containerId);
-
-  const list = orders.filter(order =>
-    String(order.workflow || "").trim().toUpperCase() === workflow
-  );
-
-  if (list.length === 0) {
-    container.innerHTML = `<p class="empty">No tasks here.</p>`;
-    return;
-  }
-
-  container.innerHTML = list.map(order => `
-    <div class="task-card compact-card">
-      <div>
-        <strong>${order.orderID || "NO ID"}</strong>
-      </div>
-
-      <button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">
-        ${buttonText}
-      </button>
-    </div>
-  `).join("");
-}
-
-async function moveOrder(orderID, nextWorkflow) {
-  const order = kitchenOrders.find(order => order.orderID === orderID);
-
-  if (!order) {
-    alert("Order not found.");
-    return;
-  }
-
-  let paymentStatus = order.paymentStatus || "PENDING";
-
-  if (nextWorkflow === "READY_TO_BAKE") {
-    paymentStatus = "VERIFIED";
-  }
-
-  order.paymentStatus = paymentStatus;
-  order.workflow = nextWorkflow;
-
-  renderKitchenBoard(kitchenOrders);
-  closeTaskModal();
-
-  fetch(SHEET_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "text/plain"
-    },
-    body: JSON.stringify({
-      action: "updateStatus",
-      orderID: orderID,
-      paymentStatus: paymentStatus,
-      workflow: nextWorkflow
-    })
-  });
-}
-
-function money(amount) {
-  return `RM${Number(amount || 0).toFixed(2)}`;
-}
-
-function parseItems(itemsText) {
-  return String(itemsText || "")
-    .split(",")
-    .map(item => item.trim())
-    .filter(Boolean)
-    .map(item => {
-      const match = item.match(/(.+)\s+x\s*(\d+)/i);
-
-      if (!match) return null;
-
-      return {
-        name: match[1].trim(),
-        qty: Number(match[2])
-      };
-    })
-    .filter(Boolean);
-}
-  
-function openTaskModal(orderID, buttonText, nextWorkflow) {
-  const order = kitchenOrders.find(o => o.orderID === orderID);
-
-  if (!order) return;
-
-  document.getElementById("taskModalContent").innerHTML = `
-    <h2>🍪 ${order.orderID}</h2>
-
-    <p class="modal-line">👤 ${order.name || "-"}</p>
-    <p class="modal-line">📱 ${order.phone || "-"}</p>
-
-    <p class="modal-line">
-      ${order.method === "delivery" ? "🚚 Delivery" : "🏠 Pickup"}
-      •
-      ${
-        order.method === "delivery"
-          ? (order.deliveryAddress || "-")
-          : (order.pickupDate || "-")
-      }
-    </p>
-
-    <hr>
-
-    <p class="modal-line">
-      🍪 ${String(order.items || "").replaceAll(",", "<br>🍪")}
-    </p>
-
-    <hr>
-
-    <p class="modal-line">💰 <strong>${money(order.total)}</strong></p>
-    <p class="modal-line">📝 ${order.notes || "-"}</p>
-
-    <a
-      class="whatsapp-btn"
-      href="https://wa.me/${order.phone}"
-      target="_blank">
-      📱 Open WhatsApp
-    </a>
-
-    <button
-      class="action-btn"
-      onclick="moveOrder('${order.orderID}','${nextWorkflow}')">
-      ${
-        nextWorkflow === "READY_TO_BAKE"
-          ? "✅ Verify Payment"
-          : buttonText
-      }
-    </button>
-  `;
-
-  document.getElementById("taskModalOverlay").classList.add("active");
-  document.getElementById("taskModal").classList.add("active");
-}
-
-function closeTaskModal() {
-  document.getElementById("taskModalOverlay").classList.remove("active");
-  document.getElementById("taskModal").classList.remove("active");
-}
-
-document
-  .getElementById("taskModalOverlay")
-  .addEventListener("click", closeTaskModal);
-
-function renderDoughStock(stock) {
-  const container = document.getElementById("doughStockList");
-
-  if (!stock.length) {
-    container.innerHTML = `<p class="empty">No dough stock found.</p>`;
-    return;
-  }
-
-  container.innerHTML = stock.map(item => {
-    let icon = "🟢";
-
-    if (Number(item.readyDough) <= Number(item.minimumStock)) {
-      icon = "🔴";
-    } else if (Number(item.readyDough) <= Number(item.minimumStock) + 5) {
-      icon = "🟡";
-    }
-
-    const previous = previousDoughStock[item.flavor];
-    const isUpdated =
-      previous !== undefined &&
-      Number(previous) !== Number(item.readyDough);
-
-    const classes = [
-      "task-card",
-      "dough-stock-card",
-      syncingDoughStock ? "syncing" : "",
-      isUpdated ? "updated" : ""
-    ].join(" ");
-
-    return `
-      <div class="${classes}">
-        <strong>${item.flavor}</strong>
-        <p>${item.readyDough} ${icon}</p>
-      </div>
-    `;
-  }).join("");
-
-  previousDoughStock = {};
-
-  stock.forEach(item => {
-    previousDoughStock[item.flavor] = item.readyDough;
-  });
-}
-setInterval(() => {
-  renderCoolingBatch("coolingList", kitchenOrders);
-}, 30000);
-  
-loadKitchen();
-</script>
-
+  </script>
 </body>
 </html>
