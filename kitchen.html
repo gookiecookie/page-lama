@@ -92,6 +92,12 @@
 .pack-card button {
   width: 100%;
 }
+
+button:disabled {
+  background: #d9d9d9;
+  color: #777;
+  cursor: not-allowed;
+}
     
   </style>
 </head>
@@ -306,14 +312,25 @@ function checkOvenCompletion() {
           </div>
         </div>
 
-        <button onclick="moveOrder('${order.orderID}', 'READY_TO_SHIP')">
-          Packed
-        </button>
+        <button onclick="markPacked(this, '${order.orderID}')">
+  Packed
+</button>
       </div>
     `;
   }).join("");
 }
 
+function markPacked(button, orderID) {
+  button.disabled = true;
+  button.textContent = "Packing...";
+
+  moveOrder(orderID, "READY_TO_SHIP");
+
+  setTimeout(() => {
+    loadKitchen();
+  }, 1800);
+}
+    
     function moveOrder(orderID, nextWorkflow) {
       const order = kitchenOrders.find(order => order.orderID === orderID);
       if (!order) { alert("Order not found."); return; }
