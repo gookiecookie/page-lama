@@ -71,6 +71,27 @@
     opacity:.8;
 
 }
+
+.pack-card {
+  display: grid;
+  gap: 12px;
+}
+
+.pack-items {
+  margin-top: 8px;
+  display: grid;
+  gap: 4px;
+}
+
+.pack-items p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.pack-card button {
+  width: 100%;
+}
     
   </style>
 </head>
@@ -129,7 +150,7 @@
       renderNeedToBakeBatch("needBakeList", orders);
       renderOvenBatch("ovenList", orders);
       renderCoolingBatch("coolingList", orders);
-      renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
+     renderPackList("packList", orders);
       renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
     }
 
@@ -257,6 +278,41 @@ function checkOvenCompletion() {
       if (!list.length) { container.innerHTML = `<p class="empty">No tasks here.</p>`; return; }
       container.innerHTML = list.map(order => `<div class="task-card compact-card"><strong>${order.orderID || "NO ID"}</strong><button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">${buttonText}</button></div>`).join("");
     }
+
+    function renderPackList(containerId, orders) {
+  const container = document.getElementById(containerId);
+
+  const list = orders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === "READY_TO_PACK"
+  );
+
+  if (list.length === 0) {
+    container.innerHTML = `<p class="empty">No orders to pack.</p>`;
+    return;
+  }
+
+  container.innerHTML = list.map(order => {
+    const items = parseItems(order.items);
+
+    return `
+      <div class="task-card pack-card">
+        <div>
+          <strong>${order.orderID || "NO ID"}</strong>
+
+          <div class="pack-items">
+            ${items.map(item => `
+              <p>🍪 ${simplifyFlavorName(item.name)} x${item.qty}</p>
+            `).join("")}
+          </div>
+        </div>
+
+        <button onclick="moveOrder('${order.orderID}', 'READY_TO_SHIP')">
+          Packed
+        </button>
+      </div>
+    `;
+  }).join("");
+}
 
     function moveOrder(orderID, nextWorkflow) {
       const order = kitchenOrders.find(order => order.orderID === orderID);
