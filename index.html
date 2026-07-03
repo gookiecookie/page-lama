@@ -1,315 +1,259 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Gookie Order</title>
-
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gookie Order</title>
+<link href="style.css" rel="stylesheet"/>
 </head>
-
 <body>
-
-  <!-- PROMO BAR -->
-  <div class="promo-bar">
+<!-- PROMO BAR -->
+<div class="promo-bar">
     ✨ Freshly baked chunky cookies • Combo discounts auto-applied ✨
   </div>
-
-  <!-- HEADER -->
-  <header class="site-header">
-    <a href="#" class="logo-link">
-      <img src="logo.png" alt="Gookie's Cookies" class="logo" />
-    </a>
-
-    <nav class="nav-menu">
-      <a href="#">HOME</a>
-      <a href="#menu">MENU</a>
-      <a href="#menu">ORDER</a>
-      <a href="#">GIFTS</a>
-    </nav>
-
-    <a href="#menu" class="order-now-btn">Order Now</a>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero-section">
-    <div class="hero-card">
-      <div class="hero-content">
-        <p class="small-title">GOOKIE’S COOKIES</p>
-
-        <h1>
-          Baking Happiness,<br />
+<!-- HEADER -->
+<header class="site-header">
+<a class="logo-link" href="#">
+<img alt="Gookie's Cookies" class="logo" src="logo.png"/>
+</a>
+<nav class="nav-menu">
+<a href="#">HOME</a>
+<a href="#menu">MENU</a>
+<a href="#menu">ORDER</a>
+<a href="#">GIFTS</a>
+</nav>
+<a class="order-now-btn" href="#menu">Order Now</a>
+</header>
+<!-- HERO -->
+<section class="hero-section">
+<div class="hero-card">
+<div class="hero-content">
+<p class="small-title">GOOKIE’S COOKIES</p>
+<h1>
+          Baking Happiness,<br/>
           one Gookie at a Time.
         </h1>
-
-        <div class="hero-divider">
-          <span></span>
-          <b></b>
-        </div>
-
-        <p class="hero-text">
+<div class="hero-divider">
+<span></span>
+<b></b>
+</div>
+<p class="hero-text">
           Pick your favourites, unlock combo savings, then checkout via WhatsApp.
         </p>
-
-        <a href="#menu" class="hero-btn">Start Ordering</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FLOATING CART -->
-  <button class="floating-cart" id="openCartBtn">
-    <span class="cart-icon">🛒</span>
-    <span id="floatingQty">0 Gookies</span>
-    <span id="floatingTotal">RM0</span>
-  </button>
-
-  <!-- MENU -->
-  <main class="menu-section" id="menu">
-    <div class="section-decoration">
-      <span></span>
-      <p>★ ★ ★</p>
-      <span></span>
-    </div>
-
-    <h2>Our Signature Gookies</h2>
-
-    <p class="menu-subtitle">
+<a class="hero-btn" href="#menu">Start Ordering</a>
+</div>
+</div>
+</section>
+<!-- FLOATING CART -->
+<button class="floating-cart" id="openCartBtn">
+<span class="cart-icon">🛒</span>
+<span id="floatingQty">0 Gookies</span>
+<span id="floatingTotal">RM0</span>
+</button>
+<!-- MENU -->
+<main class="menu-section" id="menu">
+<div class="section-decoration">
+<span></span>
+<p>★ ★ ★</p>
+<span></span>
+</div>
+<h2>Our Signature Gookies</h2>
+<p class="menu-subtitle">
       Choose your chunky wonders. Combo savings will be applied automatically.
     </p>
-
-    <div class="product-grid">
-
-      <article class="product-card" data-id="classic" data-name="Classic Choc Chip" data-price="8">
-        <div class="badge">BEST SELLER</div>
-        <img src="classic choc chip.png" alt="Classic Choc Chip" />
-        <h3>Classic Choc Chip</h3>
-        <p>Golden vanilla cookie loaded with chocolate chips.</p>
-        <div class="product-bottom">
-          <strong>RM8</strong>
-          <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
+<div class="product-grid">
+<article class="product-card" data-id="classic" data-name="Classic Choc Chip" data-price="8">
+<div class="badge">BEST SELLER</div>
+<img alt="Classic Choc Chip" src="classic choc chip.png"/>
+<h3>Classic Choc Chip</h3>
+<p>Golden vanilla cookie loaded with chocolate chips.</p>
+<div class="product-bottom">
+<strong>RM8</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
 </div>
-      </article>
-
-      <article class="product-card" data-id="dark" data-name="Dark Seasalt" data-price="8">
-        <div class="badge">BEST SELLER</div>
-        <img src="dark seasalt.png" alt="Dark Seasalt" />
-        <h3>Dark Seasalt</h3>
-        <p>Rich cocoa cookie with sea salt flakes.</p>
-        <div class="product-bottom">
-          <strong>RM8</strong>
-          <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
 </div>
-      </article>
-
-      <article class="product-card" data-id="redvelvet" data-name="Red Velvet" data-price="9">
-        <img src="red velvet.png" alt="Red Velvet" />
-        <h3>Red Velvet</h3>
-        <p>Velvety cocoa cookie with creamy chocolate notes.</p>
-        <div class="product-bottom">
-          <strong>RM9</strong>
-          <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
+</article>
+<article class="product-card" data-id="dark" data-name="Dark Seasalt" data-price="8">
+<div class="badge">BEST SELLER</div>
+<img alt="Dark Seasalt" src="dark seasalt.png"/>
+<h3>Dark Seasalt</h3>
+<p>Rich cocoa cookie with sea salt flakes.</p>
+<div class="product-bottom">
+<strong>RM8</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
 </div>
-      </article>
-
-      <article class="product-card" data-id="matchadamia" data-name="Matchadamia" data-price="10">
-        <img src="matchadamia.png" alt="Matchadamia" />
-        <h3>Matchadamia</h3>
-        <p>Matcha cookie with macadamia and milk chocolate.</p>
-        <div class="product-bottom">
-          <strong>RM10</strong>
-          <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
 </div>
-      </article>
-
-      <article class="product-card" data-id="smores" data-name="OG S’mores" data-price="10">
-        <img src="smores.png" alt="OG S’mores" />
-        <h3>OG S’mores</h3>
-        <p>Campfire-style cookie with chocolate and marshmallow.</p>
-        <div class="product-bottom">
-          <strong>RM10</strong>
-          <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
+</article>
+<article class="product-card" data-id="redvelvet" data-name="Red Velvet" data-price="9">
+<img alt="Red Velvet" src="red velvet.png"/>
+<h3>Red Velvet</h3>
+<p>Velvety cocoa cookie with creamy chocolate notes.</p>
+<div class="product-bottom">
+<strong>RM9</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
 </div>
-      </article>
-
-      <article class="product-card" data-id="biscoff" data-name="Biscoff Lava" data-price="12">
-        <div class="badge">LAVA</div>
-        <img src="biscoff lava.png" alt="Biscoff Lava" />
-        <h3>Biscoff Lava</h3>
-        <p>Soft cookie filled with warm spiced Biscoff lava.</p>
-        <div class="product-bottom">
-          <strong>RM12</strong>
-          <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
 </div>
-      </article>
-
-      <article class="product-card" data-id="chocolava" data-name="Choco Lava" data-price="12">
-        <div class="badge">LAVA</div>
-        <img src="choco lava.png" alt="Choco Lava" />
-        <h3>Choco Lava</h3>
-        <p>Chocolate cookie with rich molten chocolate filling.</p>
-        <div class="product-bottom">
-          <strong>RM12</strong>
-          <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
+</article>
+<article class="product-card" data-id="matchadamia" data-name="Matchadamia" data-price="10">
+<img alt="Matchadamia" src="matchadamia.png"/>
+<h3>Matchadamia</h3>
+<p>Matcha cookie with macadamia and milk chocolate.</p>
+<div class="product-bottom">
+<strong>RM10</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
 </div>
-      </article>
-
-      <article class="product-card" data-id="tiramisu" data-name="Tiramisu Lava" data-price="12">
-        <div class="badge">LAVA</div>
-        <img src="tiramisu lava.png" alt="Tiramisu Lava" />
-        <h3>Tiramisu Lava</h3>
-        <p>Coffee-kissed cookie with creamy tiramisu-inspired lava.</p>
-        <div class="product-bottom">
-          <strong>RM12</strong>
-         <div class="menu-qty">
-    <button class="menu-minus">−</button>
-    <span class="menu-count">0</span>
-    <button class="menu-plus">+</button>
-  </div>
 </div>
-      </article>
-
-    </div>
-  </main>
-
-  <!-- CART OVERLAY -->
-  <div class="cart-overlay" id="cartOverlay"></div>
-
-  <!-- CART DRAWER -->
-  <aside class="cart-drawer" id="cartDrawer">
-    <button class="close-cart" id="closeCartBtn">×</button>
-
-    <p class="checkout-label">CHECKOUT</p>
-    <h2>Your Gookies</h2>
-
-    <div class="combo-message" id="comboMessage">
+</article>
+<article class="product-card" data-id="smores" data-name="OG S’mores" data-price="10">
+<img alt="OG S’mores" src="smores.png"/>
+<h3>OG S’mores</h3>
+<p>Campfire-style cookie with chocolate and marshmallow.</p>
+<div class="product-bottom">
+<strong>RM10</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
+</div>
+</div>
+</article>
+<article class="product-card" data-id="biscoff" data-name="Biscoff Lava" data-price="12">
+<div class="badge">LAVA</div>
+<img alt="Biscoff Lava" src="biscoff lava.png"/>
+<h3>Biscoff Lava</h3>
+<p>Soft cookie filled with warm spiced Biscoff lava.</p>
+<div class="product-bottom">
+<strong>RM12</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
+</div>
+</div>
+</article>
+<article class="product-card" data-id="chocolava" data-name="Choco Lava" data-price="12">
+<div class="badge">LAVA</div>
+<img alt="Choco Lava" src="choco lava.png"/>
+<h3>Choco Lava</h3>
+<p>Chocolate cookie with rich molten chocolate filling.</p>
+<div class="product-bottom">
+<strong>RM12</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
+</div>
+</div>
+</article>
+<article class="product-card" data-id="tiramisu" data-name="Tiramisu Lava" data-price="12">
+<div class="badge">LAVA</div>
+<img alt="Tiramisu Lava" src="tiramisu lava.png"/>
+<h3>Tiramisu Lava</h3>
+<p>Coffee-kissed cookie with creamy tiramisu-inspired lava.</p>
+<div class="product-bottom">
+<strong>RM12</strong>
+<div class="menu-qty">
+<button class="menu-minus">−</button>
+<span class="menu-count">0</span>
+<button class="menu-plus">+</button>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<!-- CART DRAWER -->
+<aside class="cart-drawer" id="cartDrawer">
+<button class="close-cart" id="closeCartBtn">×</button>
+<p class="checkout-label">CHECKOUT</p>
+<h2>Your Gookies</h2>
+<div class="combo-message" id="comboMessage">
       Add 4 Gookies to unlock RM5 savings.
     </div>
-
-    <div class="cart-items" id="cartItems"></div>
-
-    <form class="checkout-form">
-  <h3 class="form-title">Your Details:</h3>
-
-  <input type="text" id="customerName" placeholder="Name" />
-  <input type="tel" id="customerPhone" placeholder="Phone number" />
-
-  <div class="form-group">
-
-    <label>Delivery Method</label>
-
-    <div class="locked-method">
+<div class="cart-items" id="cartItems"></div>
+<form class="checkout-form">
+<h3 class="form-title">Your Details:</h3>
+<input id="customerName" placeholder="Name" type="text"/>
+<input id="customerPhone" placeholder="Phone number" type="tel"/>
+<div class="form-group">
+<label>Delivery Method</label>
+<div class="locked-method">
 
         📦 Nationwide Courier
 
     </div>
-
 </div>
 
-  <input type="text" id="pickupDate" placeholder="Pickup date & time" />
 
-  <div id="shippingMessage" class="shipping-message">
-    Gookies will be shipped within 3 business days.
-  </div>
-
-  <textarea id="deliveryAddress" class="hidden-field" placeholder="Delivery address"></textarea>
-
-  <textarea id="customerNotes" placeholder="Notes"></textarea>
+<label>Delivery Address</label><textarea id="deliveryAddress" placeholder="Full shipping address including postcode"></textarea>
+<textarea id="customerNotes" placeholder="Notes"></textarea>
 </form>
-    <div class="summary">
-      <div>
-        <span>Subtotal</span>
-        <strong id="subtotal">RM0</strong>
-      </div>
-
-      <div>
-        <span>Combo Discount</span>
-        <strong id="discount">-RM0</strong>
-      </div>
-
-      <div>
-        <span>Delivery Charge</span>
-        <strong id="deliveryCharge">RM0</strong>
-      </div>
-
-      <div class="total-row">
-        <span>Total</span>
-        <strong id="grandTotal">RM0</strong>
-      </div>
-    </div>
-
-    <button class="checkout-btn" id="payNowBtn">
+<div class="summary">
+<div>
+<span>Subtotal</span>
+<strong id="subtotal">RM0</strong>
+</div>
+<div>
+<span>Combo Discount</span>
+<strong id="discount">-RM0</strong>
+</div>
+<div>
+<span>Delivery Charge</span>
+<strong id="deliveryCharge">RM0</strong>
+</div>
+<div class="total-row">
+<span>Total</span>
+<strong id="grandTotal">RM0</strong>
+</div>
+</div>
+<button class="checkout-btn" id="payNowBtn">
   PAY NOW
 </button>
-  </aside>
-
+</aside>
 <!-- PAYMENT POPUP -->
 <div class="payment-overlay" id="paymentOverlay"></div>
-
 <div class="payment-popup" id="paymentPopup">
-  <button class="close-payment" id="closePaymentBtn">×</button>
-
-  <div class="payment-steps">
-    <div class="step done">✓<span>Order</span></div>
-    <div class="step done">✓<span>Details</span></div>
-    <div class="step active">3<span>Payment</span></div>
-    <div class="step">4<span>Complete</span></div>
-  </div>
-
-  <p class="payment-label">GOOKIE PAYMENT</p>
-
-  <div class="payment-total-box">
-    <span>Total Amount</span>
-    <strong id="paymentTotal">RM0</strong>
-  </div>
-
-  <div class="qr-frame">
-    <img src="qrcode.png" alt="DuitNow QR Code" />
-  </div>
-
-  <div class="payment-note">
-    <p><strong>📌 Please make payment before continuing.</strong></p>
-    <p>Your order is not confirmed until payment is received.</p>
-  </div>
-
-  <label class="payment-confirm">
-    <input type="checkbox" id="proofCheck" />
-    <span>I have saved my payment proof.</span>
-  </label>
-
-  <button class="paid-btn" id="paidBtn" disabled>
+<button class="close-payment" id="closePaymentBtn">×</button>
+<div class="payment-steps">
+<div class="step done">✓<span>Order</span></div>
+<div class="step done">✓<span>Details</span></div>
+<div class="step active">3<span>Payment</span></div>
+<div class="step">4<span>Complete</span></div>
+</div>
+<p class="payment-label">GOOKIE PAYMENT</p>
+<div class="payment-total-box">
+<span>Total Amount</span>
+<strong id="paymentTotal">RM0</strong>
+</div>
+<div class="qr-frame">
+<img alt="DuitNow QR Code" src="qrcode.png"/>
+</div>
+<div class="payment-note">
+<p><strong>📌 Please make payment before continuing.</strong></p>
+<p>Your order is not confirmed until payment is received.</p>
+</div>
+<label class="payment-confirm">
+<input id="proofCheck" type="checkbox"/>
+<span>I have saved my payment proof.</span>
+</label>
+<button class="paid-btn" disabled="" id="paidBtn">
     Continue to WhatsApp →
   </button>
 </div>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
