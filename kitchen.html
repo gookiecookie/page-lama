@@ -361,7 +361,7 @@ function getWorkflowCount(orders, workflow) {
 function renderKitchenBoard(orders) {
   renderTaskList("verifyList", orders, "NEW", "Verify", "READY_TO_BAKE");
   renderTaskList("bakeList", orders, "READY_TO_BAKE", "Start Baking", "BAKING");
-  renderTaskList("coolingList", orders, "COOLING", "Ready to Pack", "READY_TO_PACK");
+  renderTaskList("coolingList", orders, "BAKING", "Move to Cooling", "COOLING");
   renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
   renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
 }
