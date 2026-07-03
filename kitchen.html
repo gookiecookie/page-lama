@@ -222,7 +222,25 @@
 .action-btn {
   width: 100%;
 }
-  
+
+.dough-stock-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+}
+
+.dough-stock-card strong {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.dough-stock-card p {
+  margin-bottom: 0;
+  font-weight: 900;
+  color: var(--red);
+} 
 </style>
 </head>
 
@@ -487,7 +505,7 @@ function renderDoughStock(stock){
 
     return`
 
-      <div class="task-card">
+      <div class="task-card dough-stock-card">
 
         <strong>${item.flavor}</strong>
 
