@@ -24,6 +24,8 @@ const paymentTotal = document.getElementById("paymentTotal");
 const paidBtn = document.getElementById("paidBtn");
 const closePaymentBtn = document.getElementById("closePaymentBtn");
 const deliveryAddress = document.getElementById("deliveryAddress");
+const customerState = document.getElementById("customerState");
+const customerPostcode = document.getElementById("customerPostcode");
 const proofCheck = document.getElementById("proofCheck");
 
 let selectedMethod = "courier";
@@ -196,12 +198,24 @@ payNowBtn.addEventListener("click", () => {
   const name = document.getElementById("customerName").value.trim();
   const phone = document.getElementById("customerPhone").value.trim();
   const notes = document.getElementById("customerNotes").value.trim();
-  const deliveryAddressValue = deliveryAddress.value.trim();
+ const state = customerState.value;
+const postcode = customerPostcode.value.trim();
+const deliveryAddressValue = deliveryAddress.value.trim();
 
-  if (!name || !phone) {
-    alert("Please fill in your name and phone number.");
-    return;
-  }
+if (!state) {
+  alert("Please select your state.");
+  return;
+}
+
+if (!postcode) {
+  alert("Please enter your postcode.");
+  return;
+}
+
+if (!deliveryAddressValue) {
+  alert("Please enter your full shipping address.");
+  return;
+}
 
   if (!deliveryAddressValue) {
     alert("Please fill in your delivery address.");
@@ -225,7 +239,9 @@ payNowBtn.addEventListener("click", () => {
     `Name: ${name}%0A` +
     `Phone: ${phone}%0A` +
     `Shipping: Nationwide Courier%0A` +
-    `Delivery Address: ${deliveryAddressValue}%0A` +
+    `State: ${state}%0A` +
+    `Postcode: ${postcode}%0A` +
+    `Address: ${deliveryAddressValue}%0A` +
     `Notes: ${notes || "-"}%0A%0A` +
 
     `*Order*%0A` +
@@ -282,7 +298,9 @@ async function sendOrderToSheet() {
     phone: phone,
     method: "courier",
     pickupDate: "",
-    deliveryAddress: deliveryAddressValue,
+   deliveryAddress:
+`${deliveryAddressValue}
+${postcode}, ${state}`,
     notes: notes,
     items: itemsText,
     subtotal: subtotal,
