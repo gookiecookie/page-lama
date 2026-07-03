@@ -557,6 +557,10 @@ function moveFlavorBatch(flavorName, currentWorkflow, nextWorkflow) {
   matchingOrders.forEach(order => {
     order.workflow = nextWorkflow;
 
+    if (nextWorkflow === "COOLING") {
+      order.coolingStarted = new Date().toISOString();
+    }
+
     fetch(SHEET_URL, {
       method: "POST",
       mode: "no-cors",
@@ -575,7 +579,7 @@ function moveFlavorBatch(flavorName, currentWorkflow, nextWorkflow) {
   renderKitchenBoard(kitchenOrders);
   setTimeout(loadKitchen, 1200);
 }
-
+  
 function escapeText(text) {
   return String(text).replace(/'/g, "\\'");
 }
