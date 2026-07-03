@@ -308,6 +308,39 @@
   color: var(--red);
   font-size: 20px;
 }
+
+.production-card {
+  width: 100%;
+  background: var(--soft);
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.production-card strong {
+  font-size: 16px;
+  color: var(--brown);
+}
+
+.production-card button {
+  padding: 10px 14px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.cooling-card {
+  align-items: center;
+}
+
+.cooling-timer {
+  margin: 4px 0 0;
+  color: var(--red);
+  font-weight: 900;
+}
+  
 </style>
 </head>
 
@@ -416,14 +449,137 @@ async function loadKitchen() {
 function renderKitchenBoard(orders) {
   renderTaskList("verifyList", orders, "NEW", "Verify", "READY_TO_BAKE");
 
-  renderBakeSummary("needBakeList", orders);
-  renderTaskList("ovenList", orders, "BAKING", "Done", "COOLING");
+  renderProductionSummary("needBakeList", orders, "READY_TO_BAKE", "Start Baking", "BAKING");
+  renderProductionSummary("ovenList", orders, "BAKING", "Done Baking", "COOLING");
 
-  renderTaskList("coolingList", orders, "COOLING", "Move to Pack", "READY_TO_PACK");
+  renderCoolingSummary("coolingList", orders);
+
   renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
   renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
 }
 
+function renderProductionSummary(containerId, orders, workflow, buttonText, nextWorkflow) {
+  const container = document.getElementById(containerId);
+
+  const filteredOrders = orders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === workflow
+  );
+
+  const totals = {};
+
+  filteredOrders.forEach(order => {
+    parseItems(order.items).forEach(item => {
+      totals[item.name] = (totals[item.name] || 0) + item.qty;
+    });
+  });
+
+  const flavors = Object.entries(totals);
+
+  if (flavors.length === 0) {
+    container.innerHTML = `<p class="empty">No cookies here.</p>`;
+    return;
+  }
+
+  container.innerHTML = flavors.map(([name, qty]) => `
+    <div class="production-card">
+      <strong>${simplifyFlavorName(name)} x${qty}</strong>
+
+      <button onclick="moveFlavorBatch('${escapeText(name)}', '${workflow}', '${nextWorkflow}')">
+        ${buttonText}
+      </button>
+    </div>
+  `).join("");
+}
+
+function renderCoolingSummary(containerId, orders) {
+  const container = document.getElementById(containerId);
+
+  const coolingOrders = orders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === "COOLING"
+  );
+
+  const totals = {};
+  const coolingTimes = {};
+
+  coolingOrders.forEach(order => {
+    parseItems(order.items).forEach(item => {
+      totals[item.name] = (totals[item.name] || 0) + item.qty;
+
+      if (!coolingTimes[item.name]) {
+        coolingTimes[item.name] = order.coolingStarted;
+      }
+    });
+  });
+
+  const flavors = Object.entries(totals);
+
+  if (flavors.length === 0) {
+    container.innerHTML = `<p class="empty">No cookies cooling.</p>`;
+    return;
+  }
+
+  container.innerHTML = flavors.map(([name, qty]) => `
+    <div class="production-card cooling-card">
+      <div>
+        <strong>${simplifyFlavorName(name)} x${qty}</strong>
+        <p class="cooling-timer">${getCoolingTimer(coolingTimes[name])}</p>
+      </div>
+
+      <button onclick="moveFlavorBatch('${escapeText(name)}', 'COOLING', 'READY_TO_PACK')">
+        Ready to Pack
+      </button>
+    </div>
+  `).join("");
+}
+
+function getCoolingTimer(startTime) {
+  if (!startTime) return "❄ Cooling timer starting...";
+
+  const start = new Date(startTime);
+  const now = new Date();
+
+  const elapsedMinutes = Math.floor((now - start) / 60000);
+  const remainingMinutes = 90 - elapsedMinutes;
+
+  if (remainingMinutes <= 0) {
+    return "✅ Cooling complete";
+  }
+
+  return `❄ ${remainingMinutes} min left`;
+}
+
+function moveFlavorBatch(flavorName, currentWorkflow, nextWorkflow) {
+  const matchingOrders = kitchenOrders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === currentWorkflow &&
+    parseItems(order.items).some(item => item.name === flavorName)
+  );
+
+  matchingOrders.forEach(order => {
+    order.workflow = nextWorkflow;
+
+    fetch(SHEET_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+        action: "updateStatus",
+        orderID: order.orderID,
+        paymentStatus: order.paymentStatus || "VERIFIED",
+        workflow: nextWorkflow
+      })
+    });
+  });
+
+  renderKitchenBoard(kitchenOrders);
+  setTimeout(loadKitchen, 1200);
+}
+
+function escapeText(text) {
+  return String(text).replace(/'/g, "\\'");
+}
+  
 function renderBakeSummary(containerId, orders) {
   const container = document.getElementById(containerId);
 
@@ -675,6 +831,10 @@ function renderDoughStock(stock) {
   }).join("");
 }
 
+setInterval(() => {
+  renderCoolingSummary("coolingList", kitchenOrders);
+}, 30000);
+  
 loadKitchen();
 </script>
 
