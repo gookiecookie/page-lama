@@ -29,7 +29,7 @@ const shippingMessage = document.getElementById("shippingMessage");
 const deliveryAddress = document.getElementById("deliveryAddress");
 const proofCheck = document.getElementById("proofCheck");
 
-let selectedMethod = "pickup";
+let selectedMethod = "courier";
 let savedWhatsappURL = "";
 let savedOrderID = "";
 
@@ -115,7 +115,7 @@ function getComboDiscount(totalQty) {
 }
 
 function getDeliveryCharge() {
-  return selectedMethod === "delivery" ? 8 : 0;
+  return 8;
 }
 
 function setOrderMethod(method) {
