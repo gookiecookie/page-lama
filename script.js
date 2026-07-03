@@ -121,19 +121,9 @@ function getDeliveryCharge() {
 function setOrderMethod(method) {
   selectedMethod = method;
 
-  if (method === "pickup") {
-    pickupBtn.classList.add("active");
-    deliveryBtn.classList.remove("active");
-    pickupDate.style.display = "block";
-    deliveryAddress.style.display = "none";
-    shippingMessage.style.display = "none";
-  } else {
-    deliveryBtn.classList.add("active");
-    pickupBtn.classList.remove("active");
-    pickupDate.style.display = "none";
-    deliveryAddress.style.display = "block";
-    shippingMessage.style.display = "block";
-  }
+ deliveryFee = 8;
+
+addressSection.style.display = "block";
 
   renderCart();
 }
