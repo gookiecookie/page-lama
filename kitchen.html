@@ -50,82 +50,88 @@
     margin-top: 8px;
   }
 
- .kitchen-layout{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:22px;
-  align-items:start;
-}
-
-.mission-column{
-  display:grid;
-  gap:18px;
-}
-
-.stock-column{
-  position:sticky;
-  top:20px;
-}
-
-.stock-column .task-column{
-  max-height:85vh;
-  overflow-y:auto;
-}
-
-.task-column {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  padding: 18px;
-  box-shadow: 0 12px 28px rgba(75, 48, 39, 0.08);
-}
-
-.task-column h2 {
-  font-size: 22px;
-  margin-bottom: 14px;
-}
-
-.task-list {
-  display: grid;
-  gap: 12px;
-}
-
-.task-card {
-  background: var(--soft);
-  border-radius: 18px;
-  padding: 14px;
-}
-
-.task-card strong {
-  display: block;
-  margin-bottom: 6px;
-}
-
-.task-card p {
-  color: var(--muted);
-  margin-bottom: 10px;
-}
-
-.empty {
-  color: var(--muted);
-  background: var(--soft);
-  border-radius: 16px;
-  padding: 14px;
-}
-
-.notes textarea {
-  margin-bottom: 12px;
-}
-
-@media (min-width: 980px) {
-  .task-board {
-    grid-template-columns: repeat(3, 1fr);
+  .kitchen-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 22px;
+    align-items: start;
   }
 
-  .notes {
-    grid-column: 1 / -1;
+  .mission-column {
+    display: grid;
+    gap: 18px;
   }
-}
+
+  .stock-column {
+    position: sticky;
+    top: 20px;
+  }
+
+  .stock-column .task-column {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .task-column {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 12px 28px rgba(75, 48, 39, 0.08);
+  }
+
+  .task-column h2 {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+
+  .task-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .bake-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .bake-box {
+    background: #fff8f2;
+    border: 1px dashed var(--line);
+    border-radius: 20px;
+    padding: 14px;
+  }
+
+  .bake-box h3 {
+    font-size: 16px;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .task-card {
+    background: var(--soft);
+    border-radius: 18px;
+    padding: 14px;
+  }
+
+  .task-card strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .task-card p {
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .empty {
+    color: var(--muted);
+    background: var(--soft);
+    border-radius: 16px;
+    padding: 14px;
+  }
+
   button {
     background: var(--red);
     color: white;
@@ -148,116 +154,124 @@
     outline: none;
   }
 
-  @media (min-width: 760px) {
-    .task-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .card.notes {
-      grid-column: 1 / -1;
-    }
+  .notes textarea {
+    margin-bottom: 12px;
   }
 
-.compact-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
+  .compact-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
 
-.task-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.45);
-  opacity: 0;
-  pointer-events: none;
-  transition: .25s;
-  z-index: 100;
-}
+  .task-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: .25s;
+    z-index: 100;
+  }
 
-.task-modal-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+  .task-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
 
-.task-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: min(520px, calc(100% - 32px));
-  max-height: 88vh;
-  overflow-y: auto;
-  background: var(--cream);
-  border-radius: 28px;
-  padding: 26px;
-  box-shadow: 0 24px 70px rgba(0,0,0,.25);
-  transform: translate(-50%, -50%) scale(.95);
-  opacity: 0;
-  pointer-events: none;
-  transition: .25s;
-  z-index: 101;
-}
+  .task-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(520px, calc(100% - 32px));
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--cream);
+    border-radius: 28px;
+    padding: 26px;
+    box-shadow: 0 24px 70px rgba(0,0,0,.25);
+    transform: translate(-50%, -50%) scale(.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: .25s;
+    z-index: 101;
+  }
 
-.task-modal.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
+  .task-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
 
-.close-modal-btn {
-  float: right;
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%;
-  background: white;
-  color: var(--brown);
-  font-size: 24px;
-}
+  .close-modal-btn {
+    float: right;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: var(--brown);
+    font-size: 24px;
+  }
 
-.modal-line {
-  margin: 10px 0;
-}
+  .modal-line {
+    margin: 10px 0;
+  }
 
-.modal-line strong {
-  color: var(--red);
-}
+  .modal-line strong {
+    color: var(--red);
+  }
 
-.whatsapp-btn {
-  display: block;
-  width: 100%;
-  margin: 18px 0 10px;
-  background: #25d366;
-  color: white;
-  text-align: center;
-  border-radius: 999px;
-  padding: 14px 20px;
-  font-weight: 900;
-  text-decoration: none;
-}
+  .whatsapp-btn {
+    display: block;
+    width: 100%;
+    margin: 18px 0 10px;
+    background: #25d366;
+    color: white;
+    text-align: center;
+    border-radius: 999px;
+    padding: 14px 20px;
+    font-weight: 900;
+    text-decoration: none;
+  }
 
-.action-btn {
-  width: 100%;
-}
+  .action-btn {
+    width: 100%;
+  }
 
-.dough-stock-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-}
+  .dough-stock-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+  }
 
-.dough-stock-card strong {
-  margin-bottom: 0;
-  font-size: 14px;
-}
+  .dough-stock-card strong {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
 
-.dough-stock-card p {
-  margin-bottom: 0;
-  font-weight: 900;
-  color: var(--red);
-} 
+  .dough-stock-card p {
+    margin-bottom: 0;
+    font-weight: 900;
+    color: var(--red);
+  }
+
+  @media (max-width: 850px) {
+    .kitchen-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .stock-column {
+      position: static;
+    }
+
+    .bake-split {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
 
@@ -268,113 +282,118 @@
       <p class="subtitle">Good Morning Mira. Start your day with Bismillah.</p>
     </header>
 
-   <main class="kitchen-layout">
+    <main class="kitchen-layout">
 
-  <section class="mission-column">
+      <section class="mission-column">
 
-    <section class="task-column">
-      <h2>🚨 Verify Payment</h2>
-      <div id="verifyList" class="task-list">
-        <p class="empty">Loading...</p>
-      </div>
-    </section>
+        <section class="task-column">
+          <h2>🚨 Verify Payment</h2>
+          <div id="verifyList" class="task-list">
+            <p class="empty">Loading...</p>
+          </div>
+        </section>
 
-    <section class="task-column">
-      <h2>🔥 Bake</h2>
-      <div id="bakeList" class="task-list">
-        <p class="empty">Loading...</p>
-      </div>
-    </section>
+        <section class="task-column">
+          <h2>🔥 Bake</h2>
 
-    <section class="task-column">
-      <h2>❄ Cooling</h2>
-      <div id="coolingList" class="task-list">
-        <p class="empty">Loading...</p>
-      </div>
-    </section>
+          <div class="bake-split">
+            <div class="bake-box">
+              <h3>Need to be Baked</h3>
+              <div id="needBakeList" class="task-list">
+                <p class="empty">Loading...</p>
+              </div>
+            </div>
 
-    <section class="task-column">
-      <h2>📦 Pack</h2>
-      <div id="packList" class="task-list">
-        <p class="empty">Loading...</p>
-      </div>
-    </section>
+            <div class="bake-box">
+              <h3>In the Oven</h3>
+              <div id="ovenList" class="task-list">
+                <p class="empty">Loading...</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    <section class="task-column">
-      <h2>🚚 Ship / Pickup</h2>
-      <div id="shipList" class="task-list">
-        <p class="empty">Loading...</p>
-      </div>
-    </section>
+        <section class="task-column">
+          <h2>❄ Cooling</h2>
+          <div id="coolingList" class="task-list">
+            <p class="empty">Loading...</p>
+          </div>
+        </section>
 
-    <section class="task-column notes">
-      <h2>📝 Staff Notes</h2>
-      <textarea placeholder="Example: Eggs running low, boxes left 8..."></textarea>
-      <button>Save Note</button>
-    </section>
+        <section class="task-column">
+          <h2>📦 Pack</h2>
+          <div id="packList" class="task-list">
+            <p class="empty">Loading...</p>
+          </div>
+        </section>
 
-  </section>
+        <section class="task-column">
+          <h2>🚚 Ship / Pickup</h2>
+          <div id="shipList" class="task-list">
+            <p class="empty">Loading...</p>
+          </div>
+        </section>
 
-  <aside class="stock-column">
+        <section class="task-column notes">
+          <h2>📝 Staff Notes</h2>
+          <textarea placeholder="Example: Eggs running low, boxes left 8..."></textarea>
+          <button>Save Note</button>
+        </section>
 
-    <section class="task-column">
-      <h2>🧊 Dough Stock</h2>
+      </section>
 
-      <div id="doughStockList" class="task-list">
-        <p class="empty">Loading dough stock...</p>
-      </div>
+      <aside class="stock-column">
+        <section class="task-column">
+          <h2>🧊 Dough Stock</h2>
 
-    </section>
+          <div id="doughStockList" class="task-list">
+            <p class="empty">Loading dough stock...</p>
+          </div>
+        </section>
+      </aside>
 
-  </aside>
-
-</main>
+    </main>
   </div>
 
-<div class="task-modal-overlay" id="taskModalOverlay"></div>
+  <div class="task-modal-overlay" id="taskModalOverlay"></div>
 
-<div class="task-modal" id="taskModal">
-  <button class="close-modal-btn" onclick="closeTaskModal()">×</button>
-  <div id="taskModalContent"></div>
-</div>
-  
-  <script>
+  <div class="task-modal" id="taskModal">
+    <button class="close-modal-btn" onclick="closeTaskModal()">×</button>
+    <div id="taskModalContent"></div>
+  </div>
+
+<script>
 let kitchenOrders = [];
-    
-  const SHEET_URL = "https://script.google.com/macros/s/AKfycbxix-lKdXmQpFcSz4-H1EQoKzqx6MA6589jcVrH7A0KaEN7ErY9dfLZCL68R1Qt0MG-/exec";
+
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxix-lKdXmQpFcSz4-H1EQoKzqx6MA6589jcVrH7A0KaEN7ErY9dfLZCL68R1Qt0MG-/exec";
 
 async function loadKitchen() {
   const response = await fetch(SHEET_URL);
-const data = await response.json();
+  const data = await response.json();
 
-kitchenOrders = data.orders;
+  kitchenOrders = data.orders || [];
 
-renderKitchenBoard(data.orders);
-
-renderDoughStock(data.doughStock);
-}
-    
-function getWorkflowCount(orders, workflow) {
-  return orders.filter(order => order.workflow === workflow).length;
+  renderKitchenBoard(kitchenOrders);
+  renderDoughStock(data.doughStock || []);
 }
 
 function renderKitchenBoard(orders) {
   renderTaskList("verifyList", orders, "NEW", "Verify", "READY_TO_BAKE");
-  renderTaskList("bakeList", orders, "READY_TO_BAKE", "Start Baking", "BAKING");
-  renderTaskList("coolingList", orders, "BAKING", "Move to Cooling", "COOLING");
+
+  renderTaskList("needBakeList", orders, "READY_TO_BAKE", "Start Baking", "BAKING");
+  renderTaskList("ovenList", orders, "BAKING", "Done", "COOLING");
+
+  renderTaskList("coolingList", orders, "COOLING", "Move to Pack", "READY_TO_PACK");
   renderTaskList("packList", orders, "READY_TO_PACK", "Packed", "READY_TO_SHIP");
   renderTaskList("shipList", orders, "READY_TO_SHIP", "Completed", "COMPLETED");
 }
 
-function refreshKitchenUI() {
-  renderKitchenBoard(kitchenOrders);
-}
-
 function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
   const container = document.getElementById(containerId);
+
   const list = orders.filter(order =>
-  String(order.workflow || "").trim().toUpperCase() === workflow
-);
+    String(order.workflow || "").trim().toUpperCase() === workflow
+  );
 
   if (list.length === 0) {
     container.innerHTML = `<p class="empty">No tasks here.</p>`;
@@ -382,17 +401,17 @@ function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow)
   }
 
   container.innerHTML = list.map(order => `
-  <div class="task-card compact-card">
-    <div>
-      <strong>${order.orderID || "NO ID"}</strong>
-      <p>${order.name || "-"} • ${money(order.total)}</p>
-    </div>
+    <div class="task-card compact-card">
+      <div>
+        <strong>${order.orderID || "NO ID"}</strong>
+        <p>${order.name || "-"} • ${money(order.total)}</p>
+      </div>
 
-    <button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">
-      Open
-    </button>
-  </div>
-`).join("");
+      <button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">
+        Open
+      </button>
+    </div>
+  `).join("");
 }
 
 async function moveOrder(orderID, nextWorkflow) {
@@ -429,126 +448,102 @@ async function moveOrder(orderID, nextWorkflow) {
     })
   });
 }
+
 function money(amount) {
   return `RM${Number(amount || 0).toFixed(2)}`;
 }
 
 function openTaskModal(orderID, buttonText, nextWorkflow) {
-
   const order = kitchenOrders.find(o => o.orderID === orderID);
 
   if (!order) return;
 
-document.getElementById("taskModalContent").innerHTML = `
-  <h2>🍪 ${order.orderID}</h2>
+  document.getElementById("taskModalContent").innerHTML = `
+    <h2>🍪 ${order.orderID}</h2>
 
-  <p class="modal-line">👤 ${order.name || "-"}</p>
-  <p class="modal-line">📱 ${order.phone || "-"}</p>
+    <p class="modal-line">👤 ${order.name || "-"}</p>
+    <p class="modal-line">📱 ${order.phone || "-"}</p>
 
-  <p class="modal-line">
-    ${order.method === "delivery" ? "🚚 Delivery" : "🏠 Pickup"}
-    •
-    ${
-      order.method === "delivery"
-        ? (order.deliveryAddress || "-")
-        : (order.pickupDate || "-")
-    }
-  </p>
+    <p class="modal-line">
+      ${order.method === "delivery" ? "🚚 Delivery" : "🏠 Pickup"}
+      •
+      ${
+        order.method === "delivery"
+          ? (order.deliveryAddress || "-")
+          : (order.pickupDate || "-")
+      }
+    </p>
 
-  <hr>
+    <hr>
 
-  <p class="modal-line">
-    🍪 ${String(order.items || "").replaceAll(",", "<br>🍪")}
-  </p>
+    <p class="modal-line">
+      🍪 ${String(order.items || "").replaceAll(",", "<br>🍪")}
+    </p>
 
-  <hr>
+    <hr>
 
-  <p class="modal-line">💰 <strong>${money(order.total)}</strong></p>
-  <p class="modal-line">📝 ${order.notes || "-"}</p>
+    <p class="modal-line">💰 <strong>${money(order.total)}</strong></p>
+    <p class="modal-line">📝 ${order.notes || "-"}</p>
 
-  <a
-    class="whatsapp-btn"
-    href="https://wa.me/${order.phone}"
-    target="_blank">
-    📱 Open WhatsApp
-  </a>
+    <a
+      class="whatsapp-btn"
+      href="https://wa.me/${order.phone}"
+      target="_blank">
+      📱 Open WhatsApp
+    </a>
 
-  <button
-    class="action-btn"
-    onclick="moveOrder('${order.orderID}','${nextWorkflow}')">
-    ${
-      nextWorkflow === "READY_TO_BAKE"
-        ? "✅ Verify Payment"
-        : buttonText
-    }
-  </button>
-`;
+    <button
+      class="action-btn"
+      onclick="moveOrder('${order.orderID}','${nextWorkflow}')">
+      ${
+        nextWorkflow === "READY_TO_BAKE"
+          ? "✅ Verify Payment"
+          : buttonText
+      }
+    </button>
+  `;
 
-  document.getElementById("taskModalOverlay")
-    .classList.add("active");
+  document.getElementById("taskModalOverlay").classList.add("active");
+  document.getElementById("taskModal").classList.add("active");
+}
 
-  document.getElementById("taskModal")
-    .classList.add("active");
-
-}   
-
-function closeTaskModal(){
-
-  document.getElementById("taskModalOverlay")
-    .classList.remove("active");
-
-  document.getElementById("taskModal")
-    .classList.remove("active");
-
+function closeTaskModal() {
+  document.getElementById("taskModalOverlay").classList.remove("active");
+  document.getElementById("taskModal").classList.remove("active");
 }
 
 document
   .getElementById("taskModalOverlay")
   .addEventListener("click", closeTaskModal);
 
-function renderDoughStock(stock){
+function renderDoughStock(stock) {
+  const container = document.getElementById("doughStockList");
 
-  const container =
-    document.getElementById("doughStockList");
+  if (!stock.length) {
+    container.innerHTML = `<p class="empty">No dough stock found.</p>`;
+    return;
+  }
 
-  container.innerHTML = stock.map(item=>{
+  container.innerHTML = stock.map(item => {
+    let icon = "🟢";
 
-    let icon="🟢";
-
-    if(item.readyDough<=item.minimumStock){
-
-      icon="🔴";
-
-    }else if(item.readyDough<=item.minimumStock+5){
-
-      icon="🟡";
-
+    if (Number(item.readyDough) <= Number(item.minimumStock)) {
+      icon = "🔴";
+    } else if (Number(item.readyDough) <= Number(item.minimumStock) + 5) {
+      icon = "🟡";
     }
 
-    return`
-
+    return `
       <div class="task-card dough-stock-card">
-
         <strong>${item.flavor}</strong>
-
-        <p>
-
-          ${item.readyDough}
-
-          ${icon}
-
-        </p>
-
+        <p>${item.readyDough} ${icon}</p>
       </div>
-
     `;
-
   }).join("");
-
 }
-    
-  loadKitchen();
+
+loadKitchen();
 </script>
-  
+
 </body>
 </html>
