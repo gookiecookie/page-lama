@@ -340,6 +340,41 @@
   color: var(--red);
   font-weight: 900;
 }
+
+.dough-stock-card.syncing {
+  opacity: 0.55;
+  position: relative;
+}
+
+.dough-stock-card.syncing::after {
+  content: "Syncing...";
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--red);
+  margin-left: 8px;
+}
+
+.dough-stock-card.updated {
+  animation: stockFlash 0.8s ease;
+}
+
+@keyframes stockFlash {
+  0% {
+    transform: scale(1);
+    background: var(--soft);
+  }
+
+  35% {
+    transform: scale(1.03);
+    background: #fff3bd;
+  }
+
+  100% {
+    transform: scale(1);
+    background: var(--soft);
+  }
+}
+
   
 </style>
 </head>
