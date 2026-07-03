@@ -211,15 +211,10 @@ payNowBtn.addEventListener("click", () => {
     return;
   }
 
-  if (selectedMethod === "pickup" && !date) {
-    alert("Please fill in your pickup date and time.");
-    return;
-  }
-
-  if (selectedMethod === "delivery" && !deliveryAddressValue) {
-    alert("Please fill in your delivery address.");
-    return;
-  }
+  if (!deliveryAddressValue) {
+  alert("Please fill in your delivery address.");
+  return;
+}
 
   const totalQty = getTotalQty();
   const subtotal = getSubtotal();
