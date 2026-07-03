@@ -681,11 +681,11 @@ async function startBakeFlavor(flavorName) {
     order.workflow = "BAKING";
   });
 
+  syncingDoughStock = true;
+  renderDoughStockFromCurrentUI();
   renderKitchenBoard(kitchenOrders);
 
   readyOrders.forEach(order => {
-    syncingDoughStock = true;
-renderDoughStockFromCurrentUI();
     fetch(SHEET_URL, {
       method: "POST",
       mode: "no-cors",
@@ -702,14 +702,15 @@ renderDoughStockFromCurrentUI();
   });
 
   setTimeout(() => {
-  syncingDoughStock = false;
-  loadKitchen();
-}, 2500);
+    syncingDoughStock = false;
+    loadKitchen();
+  }, 2500);
+}
 
 function renderDoughStockFromCurrentUI() {
   const currentStock = Object.entries(previousDoughStock).map(([flavor, readyDough]) => ({
-    flavor,
-    readyDough,
+    flavor: flavor,
+    readyDough: readyDough,
     minimumStock: 0
   }));
 
