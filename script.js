@@ -202,18 +202,17 @@ payNowBtn.addEventListener("click", () => {
 const postcode = customerPostcode.value.trim();
 const deliveryAddressValue = deliveryAddress.value.trim();
 
-if (!state) {
+if (!deliveryAddressValue) {
+  alert("Please enter your full shipping address.");
+  return;
+}
+  if (!state) {
   alert("Please select your state.");
   return;
 }
 
 if (!postcode) {
   alert("Please enter your postcode.");
-  return;
-}
-
-if (!deliveryAddressValue) {
-  alert("Please enter your full shipping address.");
   return;
 }
 
