@@ -664,17 +664,28 @@ async function startBakeFlavor(flavorName) {
 }
 
 function renderTaskList(containerId, orders, workflow, buttonText, nextWorkflow) {
-  const container.innerHTML = list.map(order => `
-  <div class="task-card compact-card">
-    <div>
-      <strong>${order.orderID || "NO ID"}</strong>
-    </div>
+  const container = document.getElementById(containerId);
 
-    <button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">
-      ${buttonText}
-    </button>
-  </div>
-`).join("");
+  const list = orders.filter(order =>
+    String(order.workflow || "").trim().toUpperCase() === workflow
+  );
+
+  if (list.length === 0) {
+    container.innerHTML = `<p class="empty">No tasks here.</p>`;
+    return;
+  }
+
+  container.innerHTML = list.map(order => `
+    <div class="task-card compact-card">
+      <div>
+        <strong>${order.orderID || "NO ID"}</strong>
+      </div>
+
+      <button onclick="openTaskModal('${order.orderID}', '${buttonText}', '${nextWorkflow}')">
+        ${buttonText}
+      </button>
+    </div>
+  `).join("");
 }
 
 async function moveOrder(orderID, nextWorkflow) {
