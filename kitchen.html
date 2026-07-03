@@ -141,7 +141,16 @@
     <span>${simplifyFlavorName(name)} x${qty}</span>
   </label>
 `).join("")}
-<button class="batch-main-btn" onclick="doneWholeBatch()">Done Baking</button></div>`;
+<button
+  id="doneBakingBtn"
+  class="batch-main-btn"
+  disabled
+  onclick="doneWholeBatch()">
+
+  Done Baking
+
+</button>
+</div>`;
     }
 
     function renderCoolingBatch(containerId, orders) {
