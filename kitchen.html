@@ -270,6 +270,18 @@
     </div>
   </section>
 
+<section class="task-column">
+  <h2>🧊 Dough Stock</h2>
+
+  <div id="doughStockList" class="task-list">
+
+    <p class="empty">
+      Loading dough stock...
+    </p>
+
+  </div>
+</section>
+     
   <section class="task-column notes">
     <h2>📝 Staff Notes</h2>
     <textarea placeholder="Example: Eggs running low, boxes left 8..."></textarea>
@@ -293,12 +305,13 @@ let kitchenOrders = [];
 
 async function loadKitchen() {
   const response = await fetch(SHEET_URL);
-  const orders = await response.json();
-  kitchenOrders = orders;
+const data = await response.json();
 
-  console.log("Kitchen orders:", orders);
+kitchenOrders = data.orders;
 
-  renderKitchenBoard(orders);
+renderKitchenBoard(data.orders);
+
+renderDoughStock(data.doughStock);
 }
     
 function getWorkflowCount(orders, workflow) {
@@ -452,6 +465,47 @@ function closeTaskModal(){
 document
   .getElementById("taskModalOverlay")
   .addEventListener("click", closeTaskModal);
+
+function renderDoughStock(stock){
+
+  const container =
+    document.getElementById("doughStockList");
+
+  container.innerHTML = stock.map(item=>{
+
+    let icon="🟢";
+
+    if(item.readyDough<=item.minimumStock){
+
+      icon="🔴";
+
+    }else if(item.readyDough<=item.minimumStock+5){
+
+      icon="🟡";
+
+    }
+
+    return`
+
+      <div class="task-card">
+
+        <strong>${item.flavor}</strong>
+
+        <p>
+
+          ${item.readyDough} dough
+
+          ${icon}
+
+        </p>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
     
   loadKitchen();
 </script>
