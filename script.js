@@ -24,8 +24,6 @@ const paymentTotal = document.getElementById("paymentTotal");
 const paidBtn = document.getElementById("paidBtn");
 const closePaymentBtn = document.getElementById("closePaymentBtn");
 const deliveryAddress = document.getElementById("deliveryAddress");
-const customerState = document.getElementById("customerState");
-const customerPostcode = document.getElementById("customerPostcode");
 const proofCheck = document.getElementById("proofCheck");
 
 let selectedMethod = "courier";
@@ -158,7 +156,7 @@ function renderCart() {
   const grandTotal = subtotal - discount + deliveryCharge;
 
   floatingQty.textContent = `${totalQty} ${totalQty === 1 ? "Gookie" : "Gookies"}`;
-  floatingTotal.textContent = formatRM(grandTotal);
+ floatingTotal.textContent = formatRM(subtotal - discount);
 
   subtotalEl.textContent = formatRM(subtotal);
   discountEl.textContent = `-${formatRM(discount)}`;
@@ -206,21 +204,7 @@ if (!deliveryAddressValue) {
   alert("Please enter your full shipping address.");
   return;
 }
-  if (!state) {
-  alert("Please select your state.");
-  return;
-}
-
-if (!postcode) {
-  alert("Please enter your postcode.");
-  return;
-}
-
-  if (!deliveryAddressValue) {
-    alert("Please fill in your delivery address.");
-    return;
-  }
-
+ 
   const totalQty = getTotalQty();
   const subtotal = getSubtotal();
   const discount = getComboDiscount(totalQty);
