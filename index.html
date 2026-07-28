@@ -1,175 +1,890 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#BB191A">
-  <title>Gookie — Pick Your Chunky Wonders</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=League+Spartan:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <button class="page-overlay" id="pageOverlay" type="button" aria-label="Close open panel" hidden></button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#BB191A" />
+    <title>Gookie — Pick Your Chunky Wonders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=League+Spartan:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=9.1" />
+  </head>
+  <body>
+    <button
+      class="page-overlay"
+      id="pageOverlay"
+      type="button"
+      aria-label="Close open panel"
+      hidden
+    ></button>
 
-  <header class="site-header" id="siteHeader">
-    <div class="header-inner">
-      <button class="header-icon-button" id="menuButton" type="button" aria-label="Open menu" aria-controls="menuDrawer" aria-expanded="false">
-        <span class="hamburger-icon" aria-hidden="true"><span></span><span></span><span></span></span>
-      </button>
-      <a class="brand-logo" href="#home" aria-label="Gookie home">
-        <img src="gookielogo.png" alt="Gookie">
-      </a>
-      <button class="header-icon-button cart-button" id="cartButton" type="button" aria-label="Open cart" aria-controls="cartDrawer" aria-expanded="false">
-        <svg class="cart-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <path d="M4 6h3l2.2 13.2a3 3 0 0 0 3 2.5h10.9a3 3 0 0 0 2.9-2.3L28 11H9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
-          <circle cx="13" cy="26" r="1.8" fill="currentColor"></circle>
-          <circle cx="24" cy="26" r="1.8" fill="currentColor"></circle>
-        </svg>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
-    </div>
-  </header>
-
-  <aside class="drawer drawer-left" id="menuDrawer" aria-hidden="true" aria-label="Main menu">
-    <div class="drawer-header">
-      <div><p class="drawer-eyebrow">HELLO, COOKIE LOVER</p><h2>Menu</h2></div>
-      <button class="drawer-close-button" id="menuCloseButton" type="button" aria-label="Close menu">×</button>
-    </div>
-    <nav class="drawer-nav" aria-label="Primary navigation">
-      <a href="#meet-the-gookies">MEET THE GOOKIES</a>
-      <a href="#choose-your-way">GET YOUR GOOKIES</a>
-      <a href="#build-your-box">BUILD YOUR BOX</a>
-      <a href="#gookies-choice">GOOKIE'S CHOICE</a>
-    </nav>
-    <div class="drawer-footer"><p>You Deserve A Gookie Break.</p><p>No drama, just good cookies.</p></div>
-  </aside>
-
-  <aside class="drawer drawer-right" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
-    <div class="drawer-header">
-      <div><p class="drawer-eyebrow">YOUR GOOKIE ORDER</p><h2>Cart</h2></div>
-      <button class="drawer-close-button" id="cartCloseButton" type="button" aria-label="Close cart">×</button>
-    </div>
-    <div class="cart-empty-state" id="cartEmptyState">
-      <div class="cookie-placeholder" aria-hidden="true">🍪</div>
-      <h3>Your box is feeling lonely.</h3>
-      <p>Choose Build Your Box or Gookie's Choice to begin.</p>
-    </div>
-    <div class="cart-content" id="cartContent" hidden><div class="cart-order-summary" id="cartOrderSummary"></div></div>
-    <div class="cart-drawer-footer">
-      <div class="cart-summary-row"><span>Cookies selected</span><strong id="cartSelectedCount">0</strong></div>
-      <button class="primary-button" id="checkoutButton" type="button" disabled>CONTINUE</button>
-    </div>
-  </aside>
-
-  <main>
-    <section class="hero-section" id="home">
-      <div class="hero-cookie-area">
-        <div class="hero-shape hero-shape-one"></div><div class="hero-shape hero-shape-two"></div>
-        <img class="hero-cookie-image" src="hero-cookies.png" alt="A stack of Gookie chunky cookies">
-      </div>
-      <div class="hero-content">
-        <p class="section-kicker">LESS SWEET. EXTRA CHUNKY.</p>
-        <h1><span>PICK YOUR</span><span>CHUNKY</span><span>WONDERS</span></h1>
-        <p class="hero-description">Big cookies, soft centres and loads of flavour. No drama, just really good cookies.</p>
-        <a class="hero-button" href="#meet-the-gookies">MEET THE GOOKIES <span aria-hidden="true">→</span></a>
-      </div>
-    </section>
-
-    <section class="meet-section" id="meet-the-gookies">
-      <div class="section-heading">
-        <p class="section-kicker">SAY HELLO TO THE WHOLE CREW</p>
-        <h2>MEET THE GOOKIES</h2>
-        <p>Tap any Gookie to discover what makes it wonderful.</p>
-      </div>
-      <div class="marquee-shell" id="marqueeShell"><div class="marquee-track" id="marqueeTrack"></div></div>
-      <p class="marquee-hint">Moving automatically. Tap any cookie to pause and explore.</p>
-    </section>
-
-    <section class="choice-section" id="choose-your-way">
-      <div class="section-heading">
-        <p class="section-kicker">NOW FOR THE FUN PART</p>
-        <h2>HOW DO YOU WANT YOUR GOOKIES?</h2>
-        <p>Pick every flavour yourself, or let Gookie do the choosing.</p>
-      </div>
-      <div class="choice-grid">
-        <button class="choice-card choice-card-light" id="showBuildYourBox" type="button">
-          <span class="choice-card-number">01</span>
-          <span class="choice-card-copy"><small>YOUR BOX. YOUR RULES.</small><strong>BUILD YOUR BOX</strong><span>Choose every flavour yourself.</span></span>
-          <span class="choice-card-arrow">→</span>
+    <header class="site-header" id="siteHeader">
+      <div class="header-inner">
+        <button
+          class="header-icon-button"
+          id="menuButton"
+          type="button"
+          aria-label="Open menu"
+          aria-controls="menuDrawer"
+          aria-expanded="false"
+        >
+          <span class="hamburger-icon" aria-hidden="true"
+            ><span></span><span></span><span></span
+          ></span>
         </button>
-        <button class="choice-card choice-card-red" id="showGookiesChoice" type="button">
-          <span class="choice-card-number">02</span>
-          <span class="choice-card-copy"><small>LET US DO THE MIXING.</small><strong>GOOKIE'S CHOICE</strong><span>Pick a collection and leave the rest to us.</span></span>
-          <span class="choice-card-arrow">→</span>
+        <a class="brand-logo" href="#home" aria-label="Gookie home">
+          <img src="smallgookielogo.png" alt="Gookie" />
+        </a>
+        <div class="header-actions">
+          <span class="malaysia-flag" title="Proudly baked in Malaysia" aria-label="Malaysia">🇲🇾</span>
+          <button
+                    class="header-icon-button cart-button"
+                    id="cartButton"
+                    type="button"
+                    aria-label="Open cart"
+                    aria-controls="cartDrawer"
+                    aria-expanded="false"
+                  >
+                    <svg
+                      class="cart-icon"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M4 6h3l2.2 13.2a3 3 0 0 0 3 2.5h10.9a3 3 0 0 0 2.9-2.3L28 11H9"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                      <circle cx="13" cy="26" r="1.8" fill="currentColor"></circle>
+                      <circle cx="24" cy="26" r="1.8" fill="currentColor"></circle>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                  </button>
+        </div>
+      </div>
+    </header>
+
+    <aside
+      class="drawer drawer-left"
+      id="menuDrawer"
+      aria-hidden="true"
+      aria-label="Main menu"
+    >
+      <div class="drawer-header">
+        <div>
+          <p class="drawer-eyebrow">HELLO, COOKIE LOVER</p>
+          <h2>Menu</h2>
+        </div>
+        <button
+          class="drawer-close-button"
+          id="menuCloseButton"
+          type="button"
+          aria-label="Close menu"
+        >
+          ×
         </button>
       </div>
-    </section>
+      <nav class="drawer-nav" aria-label="Primary navigation">
+        <a href="#meet-the-gookies">MEET THE GOOKIES</a>
+        <a href="#order-builder">GET YOUR GOOKIES</a>
+      </nav>
+      <div class="drawer-footer">
+        <p>Less sweet. Extra chunky.</p>
+        <p>No drama, just good cookies.</p>
+      </div>
+    </aside>
 
-    <section class="order-section is-hidden" id="build-your-box">
-      <div class="section-heading">
-        <p class="section-kicker">YOUR BOX. YOUR RULES.</p><h2>BUILD YOUR BOX</h2>
-        <p>Choose a box size, then pick your Gookies in one simple list.</p>
-      </div>
-      <div class="box-size-options" id="buildBoxSizeOptions">
-        <button class="box-size-card" type="button" data-box-size="4" data-box-name="Treat Box"><span class="box-size-number">4</span><span><strong>TREAT BOX</strong><small>4 cookies</small></span></button>
-        <button class="box-size-card" type="button" data-box-size="6" data-box-name="Chunky Box"><span class="box-size-number">6</span><span><strong>CHUNKY BOX</strong><small>6 cookies</small></span></button>
-        <button class="box-size-card" type="button" data-box-size="12" data-box-name="Cookie Feast"><span class="box-size-number">12</span><span><strong>COOKIE FEAST</strong><small>12 cookies</small></span></button>
-      </div>
-      <div class="cookie-box-panel">
-        <div class="cookie-box-header">
-          <div><p class="cookie-box-label">YOUR BOX</p><h3 id="buildSelectedBoxName">Choose a box size</h3></div>
-          <div class="box-counter"><strong id="buildSelectedCount">0</strong><span>/</span><strong id="buildBoxCapacity">0</strong></div>
+    <aside
+      class="drawer drawer-right"
+      id="cartDrawer"
+      aria-hidden="true"
+      aria-label="Shopping cart"
+    >
+      <div class="drawer-header">
+        <div>
+          <p class="drawer-eyebrow">YOUR GOOKIE ORDER</p>
+          <h2>Cart</h2>
         </div>
-        <div class="cookie-box-slots" id="buildCookieSlots"></div>
-        <p class="box-helper-text" id="buildBoxHelper">Choose your box size to start building.</p>
-        <button class="primary-button" id="openFlavourSelector" type="button" disabled>CHOOSE MY GOOKIES</button>
+        <button
+          class="drawer-close-button"
+          id="cartCloseButton"
+          type="button"
+          aria-label="Close cart"
+        >
+          ×
+        </button>
       </div>
-    </section>
-
-    <section class="order-section is-hidden" id="gookies-choice">
-      <div class="section-heading">
-        <p class="section-kicker">THE EASY, DELICIOUS WAY</p><h2>GOOKIE'S CHOICE</h2>
-        <p>Choose a collection, choose a box size, and we will curate the mix.</p>
+      <div class="cart-empty-state" id="cartEmptyState">
+        <div class="cookie-placeholder" aria-hidden="true">🍪</div>
+        <h3>Your box is feeling lonely.</h3>
+        <p>Choose Build Your Box or Gookie's Choice to begin.</p>
       </div>
-      <div class="collection-grid" id="collectionGrid">
+      <div class="cart-content" id="cartContent" hidden>
+        <div class="cart-order-summary" id="cartOrderSummary"></div>
       </div>
-      <div class="cookie-box-panel is-hidden" id="gookieChoicePreview">
-        <div class="cookie-box-header">
-          <div><p class="cookie-box-label">YOUR CURATED BOX</p><h3 id="gookieChoiceTitle">Gookie's Choice</h3></div>
-          <button class="secondary-button" id="reshuffleChoice" type="button">RESHUFFLE</button>
+      <div class="cart-drawer-footer">
+        <div class="cart-summary-row">
+          <span>Cookies selected</span><strong id="cartSelectedCount">0</strong>
         </div>
-        <div class="cookie-box-slots" id="gookieChoiceSlots"></div>
-        <p class="box-helper-text" id="gookieChoiceSummary"></p>
-        <button class="primary-button" id="keepGookieChoice" type="button">KEEP THESE GOOKIES</button>
+        <button
+          class="primary-button"
+          id="checkoutButton"
+          type="button"
+          disabled
+        >
+          CONTINUE
+        </button>
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero-section" id="home">
+        <div class="hero-cookie-area">
+          <div class="hero-shape hero-shape-one"></div>
+          <div class="hero-shape hero-shape-two"></div>
+          <img
+            class="hero-cookie-image"
+            src="hero-cookies.png"
+            alt="A stack of Gookie chunky cookies"
+          />
+        </div>
+        <div class="hero-content">
+          <p class="section-kicker">LESS SWEET. EXTRA CHUNKY.</p>
+          <h1><span>PICK YOUR</span><span>CHUNKY</span><span>WONDERS</span></h1>
+          <p class="hero-description">
+            Big cookies, soft centres and loads of flavour. No drama, just
+            really good cookies.
+          </p>
+          <a class="hero-button" href="#meet-the-gookies"
+            >MEET THE GOOKIES <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </section>
+
+      <!-- GOOKIE BRAND VALUES -->
+      <section class="hero-values" aria-labelledby="gookie-break-title">
+        <p class="hero-values-title" id="gookie-break-title">
+          Take a Gookie Break.
+        </p>
+
+        <div class="hero-values-grid">
+          <div class="hero-value">
+            <span aria-hidden="true">🍪</span>
+            <strong>Baked Fresh</strong>
+          </div>
+
+          <div class="hero-value">
+            <span aria-hidden="true">🤎</span>
+            <strong>Less Sweet</strong>
+          </div>
+
+          <div class="hero-value">
+            <span aria-hidden="true">❤️</span>
+            <strong>Enjoy Longer</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="meet-section" id="meet-the-gookies">
+        <div class="section-heading">
+          <p class="section-kicker">SAY HELLO TO THE WHOLE CREW</p>
+          <h2>MEET THE GOOKIES</h2>
+          <p>Tap any Gookie to discover what makes it wonderful.</p>
+        </div>
+        <div class="marquee-wrapper">
+          <button
+            class="marquee-arrow marquee-arrow-left"
+            id="marqueePrev"
+            type="button"
+            aria-label="View previous Gookies"
+          >
+            ←
+          </button>
+
+          <div class="marquee-shell" id="marqueeShell">
+            <div class="marquee-track" id="marqueeTrack"></div>
+          </div>
+
+          <button
+            class="marquee-arrow marquee-arrow-right"
+            id="marqueeNext"
+            type="button"
+            aria-label="View more Gookies"
+          >
+            →
+          </button>
+        </div>
+        <p class="marquee-hint">
+        </p>
+      </section>
+
+      <section class="order-builder" id="order-builder">
+        <div class="section-heading order-builder-heading">
+          <p class="section-kicker">NOW FOR THE FUN PART</p>
+          <h2>GET YOUR GOOKIES</h2>
+          <p>Build your own box, or let Gookie choose for you 🤍</p>
+        </div>
+
+        <div
+          class="order-builder-tabs"
+          role="tablist"
+          aria-label="Choose your ordering style"
+        >
+          <button
+            class="order-builder-tab is-active"
+            id="showBuildYourBox"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="build-your-box"
+            data-order-tab="build"
+          >
+            BUILD YOUR BOX
+          </button>
+          <button
+            class="order-builder-tab"
+            id="showGookiesChoice"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="gookies-choice"
+            data-order-tab="choice"
+          >
+            GOOKIE'S PICKS
+          </button>
+        </div>
+
+        <div class="order-builder-content">
+          <section class="order-section order-builder-panel" id="build-your-box" data-order-panel="build">
+            <div class="box-size-options" id="buildBoxSizeOptions">
+  <article
+    class="box-size-card box-accordion"
+    data-box-size="4"
+    data-box-name="Treat Box"
+  >
+    <button
+      class="box-accordion-header"
+      type="button"
+      aria-expanded="false"
+    >
+      <span class="box-size-number">4</span>
+
+      <span class="box-accordion-copy">
+        <strong>TREAT BOX</strong>
+        <small>4 cookies · RM39</small>
+      </span>
+
+      <span class="box-accordion-arrow" aria-hidden="true">⌄</span>
+    </button>
+
+    <div class="box-accordion-body" hidden>
+      <div class="box-mini-slots" data-box-slots="4"></div>
+
+      <p class="box-accordion-helper">
+        Pick 4 cookies to complete your Treat Box.
+      </p>
+
+      <button
+        class="primary-button box-accordion-action"
+        type="button"
+        data-box-action="4"
+      >
+        CHOOSE MY GOOKIES
+      </button>
+    </div>
+  </article>
+
+  <article
+    class="box-size-card box-accordion"
+    data-box-size="6"
+    data-box-name="Chunky Box"
+  >
+    <button
+      class="box-accordion-header"
+      type="button"
+      aria-expanded="false"
+    >
+      <span class="box-size-number">6</span>
+
+      <span class="box-accordion-copy">
+        <strong>CHUNKY BOX</strong>
+        <small>6 cookies · RM56</small>
+      </span>
+
+      <span class="box-accordion-arrow" aria-hidden="true">⌄</span>
+    </button>
+
+    <div class="box-accordion-body" hidden>
+      <div class="box-mini-slots" data-box-slots="6"></div>
+
+      <p class="box-accordion-helper">
+        Pick 6 cookies to complete your Chunky Box.
+      </p>
+
+      <button
+        class="primary-button box-accordion-action"
+        type="button"
+        data-box-action="6"
+      >
+        CHOOSE MY GOOKIES
+      </button>
+    </div>
+  </article>
+
+  <article
+    class="box-size-card box-accordion"
+    data-box-size="12"
+    data-box-name="Cookie Feast"
+  >
+    <button
+      class="box-accordion-header"
+      type="button"
+      aria-expanded="false"
+    >
+      <span class="box-size-number">12</span>
+
+      <span class="box-accordion-copy">
+        <strong>COOKIE FEAST</strong>
+        <small>12 cookies · RM108</small>
+      </span>
+
+      <span class="box-accordion-arrow" aria-hidden="true">⌄</span>
+    </button>
+
+    <div class="box-accordion-body" hidden>
+      <div class="box-mini-slots" data-box-slots="12"></div>
+
+      <p class="box-accordion-helper">
+        Pick 12 cookies to complete your Cookie Feast.
+      </p>
+
+      <button
+        class="primary-button box-accordion-action"
+        type="button"
+        data-box-action="12"
+      >
+        CHOOSE MY GOOKIES
+      </button>
+    </div>
+  </article>
+</div>
+            <div class="cookie-box-panel build-legacy-panel">
+              <div class="cookie-box-header">
+                <div>
+                  <p class="cookie-box-label">YOUR BOX</p>
+                  <h3 id="buildSelectedBoxName">Choose a box size</h3>
+                </div>
+                <div class="box-counter">
+                  <strong id="buildSelectedCount">0</strong><span>/</span
+                  ><strong id="buildBoxCapacity">0</strong>
+                </div>
+              </div>
+
+              <!-- ==================== BUILD BOX PROGRESS ==================== -->
+              <div
+                class="box-progress"
+                id="buildBoxProgress"
+                role="progressbar"
+                aria-label="Build Your Box progress"
+                aria-valuemin="0"
+                aria-valuemax="0"
+                aria-valuenow="0"
+              >
+                <div class="box-progress-track">
+                  <div class="box-progress-fill" id="buildBoxProgressFill"></div>
+                </div>
+                <span class="box-progress-text" id="buildBoxProgressText">
+                  Choose a box size to begin
+                </span>
+              </div>
+
+              <div class="cookie-box-slots" id="buildCookieSlots"></div>
+              <p class="box-helper-text" id="buildBoxHelper">
+                Choose your box size to start building.
+              </p>
+              <button
+                class="primary-button"
+                id="openFlavourSelector"
+                type="button"
+                disabled
+              >
+                CHOOSE MY GOOKIES
+              </button>
+            </div>
+          </section>
+
+      <section
+  class="order-section order-builder-panel is-hidden"
+  id="gookies-choice"
+  data-order-panel="choice"
+>
+  <div class="gookies-picks-intro">
+    <p class="section-kicker">THE EASY, DELICIOUS WAY</p>
+    <p>We'll pick. You enjoy.</p>
+  </div>
+
+  <div class="gookies-picks-grid" id="collectionGrid">
+    <button
+      class="gookies-pick-card"
+      type="button"
+      data-pick-id="first-timer"
+    >
+      <div class="gookies-pick-image">
+        <img src="first-timer-box.png" alt="First-Timer box" />
+        <span class="gookies-pick-badge">START HERE</span>
+      </div>
+      <strong>FIRST-TIMER</strong>
+      <span>4 Cookies · RM36</span>
+    </button>
+
+    <button
+      class="gookies-pick-card"
+      type="button"
+      data-pick-id="the-classics"
+    >
+      <div class="gookies-pick-image">
+        <img src="the-classics-box.png" alt="The Classics box" />
+      </div>
+      <strong>THE CLASSICS</strong>
+      <span>6 Cookies · RM52</span>
+    </button>
+
+    <button
+      class="gookies-pick-card"
+      type="button"
+      data-pick-id="surprise-box"
+    >
+      <div class="gookies-pick-image">
+        <img src="surprise-box.png" alt="Surprise Box" />
+      </div>
+      <strong>SURPRISE BOX</strong>
+      <span>6 Cookies · RM52</span>
+    </button>
+
+    <button
+      class="gookies-pick-card"
+      type="button"
+      data-pick-id="full-wonder"
+    >
+      <div class="gookies-pick-image">
+        <img src="full-wonder-box.png" alt="Full Wonder box" />
+      </div>
+      <strong>FULL WONDER</strong>
+      <span>12 Cookies · RM99</span>
+    </button>
+  </div>
+</section>
+    </main>
+
+    <section
+      class="modal"
+      id="cookieModal"
+      aria-hidden="true"
+      aria-label="Cookie details"
+    >
+      <div class="modal-card cookie-detail-modal">
+        <button
+          class="modal-close-button"
+          id="cookieModalClose"
+          type="button"
+          aria-label="Close cookie details"
+        >
+          ×
+        </button>
+        <div class="cookie-detail-image-wrap">
+          <img id="modalCookieImage" src="" alt="" />
+        </div>
+        <div class="cookie-detail-content">
+          <p class="modal-cookie-subtitle" id="modalCookieSubtitle"></p>
+          <h2 id="modalCookieName"></h2>
+          <p id="modalCookieDescription"></p>
+          <button
+            class="primary-button"
+            id="getYourGookiesButton"
+            type="button"
+          >
+            GET YOUR GOOKIES
+          </button>
+        </div>
       </div>
     </section>
-  </main>
 
-  <section class="modal" id="cookieModal" aria-hidden="true" aria-label="Cookie details">
-    <div class="modal-card cookie-detail-modal">
-      <button class="modal-close-button" id="cookieModalClose" type="button" aria-label="Close cookie details">×</button>
-      <div class="cookie-detail-image-wrap"><img id="modalCookieImage" src="" alt=""></div>
-      <div class="cookie-detail-content">
-        <p class="modal-cookie-subtitle" id="modalCookieSubtitle"></p><h2 id="modalCookieName"></h2><p id="modalCookieDescription"></p>
-        <button class="primary-button" id="getYourGookiesButton" type="button">GET YOUR GOOKIES</button>
+    <section
+      class="modal"
+      id="flavourModal"
+      aria-hidden="true"
+      aria-label="Choose your Gookie flavours"
+    >
+      <div class="modal-card flavour-selector-modal">
+        <div class="modal-sticky-header">
+          <div>
+            <p class="drawer-eyebrow">BUILD YOUR BOX</p>
+            <h2 id="flavourModalTitle">Choose your Gookies</h2>
+          </div>
+          <button
+            class="modal-close-button"
+            id="flavourModalClose"
+            type="button"
+            aria-label="Close flavour selector"
+          >
+            ×
+          </button>
+        </div>
+        <div class="flavour-selector-counter">
+          <strong id="flavourSelectedCount">0</strong><span>/</span
+          ><strong id="flavourBoxCapacity">0</strong><span>selected</span>
+        </div>
+        <div class="flavour-name-list" id="flavourNameList"></div>
+        <div class="modal-sticky-footer">
+          <button
+            class="primary-button"
+            id="saveFlavourSelection"
+            type="button"
+            disabled
+          >
+            COMPLETE YOUR BOX
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         CHECKOUT MODAL: CUSTOMER DETAILS & ORDER REVIEW
+         ========================================================= -->
+    <section
+      class="modal"
+      id="checkoutModal"
+      aria-hidden="true"
+      aria-label="Checkout details"
+    >
+      <div class="modal-card checkout-modal-card">
+        <div class="modal-sticky-header">
+          <div>
+            <p class="drawer-eyebrow">ALMOST THERE</p>
+            <h2 id="checkoutModalTitle">Your details</h2>
+          </div>
+          <button
+            class="modal-close-button"
+            id="checkoutModalClose"
+            type="button"
+            aria-label="Close checkout"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="checkout-modal-body">
+          <!-- ==================== CUSTOMER DETAILS FORM ==================== -->
+          <form class="checkout-form" id="customerDetailsForm" novalidate>
+            <div class="checkout-intro">
+              <p class="section-kicker">COURIER DELIVERY</p>
+              <h3>Where should we send your chunky wonders?</h3>
+              <p>
+                Enter the recipient details exactly as they should appear on
+                the parcel.
+              </p>
+            </div>
+
+            <div class="form-field">
+              <label for="customerName">Full name</label>
+              <input
+                id="customerName"
+                name="customerName"
+                type="text"
+                autocomplete="name"
+                placeholder="e.g. Amar Amirah"
+                required
+              />
+              <small class="form-error" id="customerNameError"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="customerPhone">Phone number</label>
+              <input
+                id="customerPhone"
+                name="customerPhone"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="e.g. 0123456789"
+                required
+              />
+              <small class="form-help">Malaysia number without spaces is fine.</small>
+              <small class="form-error" id="customerPhoneError"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="deliveryAddress">Full delivery address</label>
+              <textarea
+                id="deliveryAddress"
+                name="deliveryAddress"
+                rows="4"
+                autocomplete="street-address"
+                placeholder="House/unit, street, area, city and state"
+                required
+              ></textarea>
+              <small class="form-error" id="deliveryAddressError"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="deliveryPostcode">Postcode</label>
+              <input
+                id="deliveryPostcode"
+                name="deliveryPostcode"
+                type="text"
+                inputmode="numeric"
+                autocomplete="postal-code"
+                maxlength="5"
+                placeholder="e.g. 68000"
+                required
+              />
+              <small class="form-error" id="deliveryPostcodeError"></small>
+            </div>
+
+            <div class="form-field">
+              <label for="orderNotes">Order notes <span>(optional)</span></label>
+              <textarea
+                id="orderNotes"
+                name="orderNotes"
+                rows="3"
+                placeholder="Gift note, delivery instruction or allergy reminder"
+              ></textarea>
+            </div>
+
+            <button class="primary-button" type="submit">
+              REVIEW MY ORDER
+            </button>
+          </form>
+
+          <!-- ==================== CHECKOUT REVIEW ==================== -->
+          <div class="checkout-review is-hidden" id="checkoutReview">
+            <div class="checkout-intro">
+              <p class="section-kicker">ONE LAST CHECK</p>
+              <h3>Everything looks delicious.</h3>
+              <p>Check the details below before continuing to payment.</p>
+            </div>
+
+            <div class="checkout-review-section">
+              <div class="checkout-review-heading">
+                <h4>Delivery details</h4>
+                <button class="text-button" id="editCustomerDetails" type="button">
+                  EDIT
+                </button>
+              </div>
+              <div class="checkout-details-card" id="checkoutDetailsSummary"></div>
+            </div>
+
+            <div class="checkout-review-section">
+              <div class="checkout-review-heading">
+                <h4>Your Gookies</h4>
+                <span id="checkoutReviewCount"></span>
+              </div>
+              <div class="checkout-order-review" id="checkoutOrderReview"></div>
+            </div>
+
+            <button class="primary-button" id="proceedToPaymentButton" type="button">
+              CONTINUE TO PAYMENT
+            </button>
+            <p class="checkout-next-step-note" id="checkoutNextStepNote" hidden></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         STEP 7: PAYMENT
+         ========================================================= -->
+    <section
+      class="modal"
+      id="paymentModal"
+      aria-hidden="true"
+      aria-label="Pay for your Gookie order"
+    >
+      <div class="modal-card payment-modal-card">
+        <div class="modal-sticky-header">
+          <div>
+            <p class="drawer-eyebrow">STEP 7 · PAYMENT</p>
+            <h2>Pay for your Gookies</h2>
+          </div>
+          <button
+            class="modal-close-button"
+            id="paymentModalClose"
+            type="button"
+            aria-label="Close payment"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="payment-modal-body">
+<div class="payment-total-card">
+  <span id="paymentBoxSummary"></span>
+
+  <div class="payment-breakdown">
+    <div class="payment-breakdown-row">
+      <span>Subtotal</span>
+      <strong id="paymentSubtotal">RM0.00</strong>
+    </div>
+
+    <div class="payment-breakdown-row">
+      <span>Delivery</span>
+      <strong id="paymentDelivery">RM0.00</strong>
+    </div>
+  </div>
+
+  <div class="payment-total-divider"></div>
+
+  <p>AMOUNT TO PAY</p>
+  <strong id="paymentTotal">RM0.00</strong>
+</div>
+
+          <div class="payment-qr-card">
+            <p class="mini-heading">SCAN TO PAY WITH DUITNOW</p>
+            <div class="payment-qr-wrap">
+              <img
+                id="paymentQrImage"
+                src="qrcode.png"
+                alt="Gookie DuitNow QR code"
+              />
+            </div>
+            <p class="payment-qr-help">
+              Open your banking app, scan the QR code and complete the payment.
+            </p>
+          </div>
+
+          <div class="payment-reminder" role="note">
+            <span aria-hidden="true">!</span>
+            <div>
+              <strong>Save your payment proof.</strong>
+              <p>You will need to attach it in WhatsApp after continuing.</p>
+            </div>
+          </div>
+
+          <label class="payment-proof-check" for="paymentProofSaved">
+            <input id="paymentProofSaved" type="checkbox" />
+            <span class="payment-checkmark" aria-hidden="true"></span>
+            <span>I have saved my payment proof</span>
+          </label>
+
+          <button
+            class="primary-button"
+            id="continueToWhatsAppButton"
+            type="button"
+            disabled
+          >
+            CONTINUE TO WHATSAPP
+          </button>
+          <p class="payment-whatsapp-note">
+            WhatsApp will open with your order details ready to send. Attach
+            your saved payment proof before sending the message.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- =========================================================
+         GOOKIE ORDER CREATION LOADER
+         ========================================================= -->
+    <div
+      class="order-creation-loader"
+      id="orderCreationLoader"
+      role="status"
+      aria-live="polite"
+      aria-hidden="true"
+      hidden
+    >
+      <div class="order-creation-loader-card">
+        <p class="order-creation-kicker">YOUR GOOKIES ARE GETTING READY</p>
+
+        <div
+          class="gookie-loader-box"
+          id="orderCreationBox"
+          aria-hidden="true"
+        >
+          <div class="gookie-loader-lid">
+            <span>GOOKIE</span>
+          </div>
+
+          <div class="gookie-loader-box-base">
+            <span class="loader-cookie loader-cookie-1"></span>
+            <span class="loader-cookie loader-cookie-2"></span>
+            <span class="loader-cookie loader-cookie-3"></span>
+            <span class="loader-cookie loader-cookie-4"></span>
+            <span class="loader-cookie loader-cookie-5"></span>
+            <span class="loader-cookie loader-cookie-6"></span>
+          </div>
+
+          <span class="gookie-loader-check">✓</span>
+        </div>
+
+        <h2>Creating your order</h2>
+        <p id="orderCreationStatus">Preparing your cookie box...</p>
+
+        <div class="order-creation-progress" aria-hidden="true">
+          <span></span>
+        </div>
       </div>
     </div>
-  </section>
 
-  <section class="modal" id="flavourModal" aria-hidden="true" aria-label="Choose your Gookie flavours">
-    <div class="modal-card flavour-selector-modal">
-      <div class="modal-sticky-header">
-        <div><p class="drawer-eyebrow">BUILD YOUR BOX</p><h2 id="flavourModalTitle">Choose your Gookies</h2></div>
-        <button class="modal-close-button" id="flavourModalClose" type="button" aria-label="Close flavour selector">×</button>
-      </div>
-      <div class="flavour-selector-counter"><strong id="flavourSelectedCount">0</strong><span>/</span><strong id="flavourBoxCapacity">0</strong><span>selected</span></div>
-      <div class="flavour-name-list" id="flavourNameList"></div>
-      <div class="modal-sticky-footer"><button class="primary-button" id="saveFlavourSelection" type="button" disabled>COMPLETE YOUR BOX</button></div>
+<section
+  class="modal"
+  id="gookiePickModal"
+  aria-hidden="true"
+  aria-label="Gookie's Pick details"
+>
+  <div class="modal-card gookie-pick-modal-card">
+    <button
+      class="modal-close-button"
+      id="gookiePickModalClose"
+      type="button"
+      aria-label="Close Gookie's Pick details"
+    >
+      ×
+    </button>
+
+    <div class="gookie-pick-modal-image">
+      <img id="gookiePickModalImage" src="" alt="" />
     </div>
-  </section>
 
-  <script src="script.js"></script>
-</body>
+    <div class="gookie-pick-modal-content">
+      <p class="section-kicker" id="gookiePickModalKicker"></p>
+      <h2 id="gookiePickModalTitle"></h2>
+      <p id="gookiePickModalDescription"></p>
+
+      <div class="gookie-pick-included">
+        <p class="mini-heading">WHAT'S INSIDE</p>
+        <div id="gookiePickModalIncluded"></div>
+      </div>
+
+      <div class="gookie-pick-modal-meta">
+        <span id="gookiePickModalQuantity"></span>
+        <strong id="gookiePickModalPrice"></strong>
+      </div>
+
+      <button
+        class="primary-button"
+        id="addGookiePickToCart"
+        type="button"
+      >
+        ADD TO CART
+      </button>
+    </div>
+  </div>
+</section>
+
+<script src="order-engine.js"></script>
+<script src="script.js?v=8.0"></script>
+        
+  </body>
 </html>
