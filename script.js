@@ -333,135 +333,383 @@ function closeAllModals() {
   });
   closeOverlayIfIdle();
 }
-function createMarqueeCard(c) {
-  const b = document.createElement("button");
-  b.className = "marquee-card";
-  b.type = "button";
-  b.innerHTML = `<span class="marquee-card-image"><img src="${c.image}" alt="${c.name}"></span><span class="marquee-card-copy"><small>${c.subtitle}</small><strong>${c.name}</strong></span>`;
-  b.addEventListener("click", (event) => {
+/* =========================================================
+   MEET THE GOOKIES — PREMIUM SNAP CAROUSEL
+========================================================= */
+let marqueeCurrentIndex = 0;
+let marqueeScrollTimer = null;
+let marqueeAutoplayTimer = null;
+let marqueePointerCurrentX = 0;
+
+
+/* CREATE ONE COOKIE CARD */
+
+function createMarqueeCard(cookie, index) {
+  const button = document.createElement("button");
+
+  button.className = "marquee-card";
+  button.type = "button";
+  button.dataset.slideIndex = String(index);
+
+  button.innerHTML = `
+    <span class="marquee-card-image">
+      <img
+        src="${cookie.image}"
+        alt="${cookie.name}"
+        loading="lazy"
+      >
+    </span>
+
+    <span class="marquee-card-copy">
+      <small>${cookie.subtitle}</small>
+      <strong>${cookie.name}</strong>
+    </span>
+  `;
+
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+
     if (marqueeDragDistance > 8) {
-      event.preventDefault();
       marqueeDragDistance = 0;
       return;
     }
 
     pauseMarquee();
-    openCookieDetails(c);
+    openCookieDetails(cookie);
+    marqueeDragDistance = 0;
   });
-  return b;
+
+  return button;
 }
+
+
+/* RENDER CARDS + PAGINATION */
+
 function renderMarquee() {
+  if (!marqueeTrack || !marqueeShell) return;
+
   marqueeTrack.innerHTML = "";
 
-  [...gookieCatalogue, ...gookieCatalogue].forEach((cookie) => {
-    marqueeTrack.appendChild(createMarqueeCard(cookie));
+  gookieCatalogue.forEach((cookie, index) => {
+    marqueeTrack.appendChild(
+      createMarqueeCard(cookie, index)
+    );
+  });
+
+  createMarqueePagination();
+}
+
+
+/* CREATE DOTS AUTOMATICALLY */
+
+function createMarqueePagination() {
+  const wrapper = marqueeShell.closest(".marquee-wrapper");
+
+  if (!wrapper) return;
+
+  let pagination =
+    wrapper.querySelector(".marquee-pagination");
+
+  if (!pagination) {
+    pagination = document.createElement("div");
+    pagination.className = "marquee-pagination";
+    pagination.setAttribute(
+      "aria-label",
+      "Choose a Gookie"
+    );
+
+    wrapper.appendChild(pagination);
+  }
+
+  pagination.innerHTML = "";
+
+  gookieCatalogue.forEach((cookie, index) => {
+    const dot = document.createElement("button");
+
+    dot.type = "button";
+    dot.className = "marquee-dot";
+    dot.setAttribute(
+      "aria-label",
+      `Show ${cookie.name}`
+    );
+
+    dot.addEventListener("click", () => {
+      goToMarqueeSlide(index, true);
+    });
+
+    pagination.appendChild(dot);
+  });
+
+  updateMarqueeActiveState(0);
+}
+
+
+/* GET ALL CARDS */
+
+function getMarqueeCards() {
+  return Array.from(
+    marqueeTrack.querySelectorAll(".marquee-card")
+  );
+}
+
+
+/* MOVE TO A SPECIFIC COOKIE */
+
+function goToMarqueeSlide(index, userAction = false) {
+  const cards = getMarqueeCards();
+
+  if (!cards.length) return;
+
+  const total = cards.length;
+
+  marqueeCurrentIndex =
+    (index + total) % total;
+
+  const card = cards[marqueeCurrentIndex];
+
+ const targetLeft =
+  card.offsetLeft -
+  (marqueeShell.clientWidth - card.offsetWidth) / 2;
+
+marqueeShell.scrollTo({
+  left: targetLeft,
+  behavior: "smooth",
+});
+
+  updateMarqueeActiveState(marqueeCurrentIndex);
+
+  if (userAction) {
+    pauseMarquee();
+    resumeMarquee(4500);
+  }
+}
+
+
+/* PREVIOUS / NEXT */
+
+function scrollMarqueeByCard(direction) {
+  goToMarqueeSlide(
+    marqueeCurrentIndex + direction,
+    true
+  );
+}
+
+
+/* ACTIVE COOKIE + ACTIVE DOT */
+
+function updateMarqueeActiveState(index) {
+  const cards = getMarqueeCards();
+
+  cards.forEach((card, cardIndex) => {
+    const isActive = cardIndex === index;
+
+    card.classList.toggle("is-active", isActive);
+
+    card.setAttribute(
+      "aria-current",
+      isActive ? "true" : "false"
+    );
+  });
+
+  document
+    .querySelectorAll(".marquee-dot")
+    .forEach((dot, dotIndex) => {
+      dot.classList.toggle(
+        "is-active",
+        dotIndex === index
+      );
+    });
+}
+
+
+/* FIND CARD CLOSEST TO SCREEN CENTRE */
+
+function updateMarqueeIndexFromScroll() {
+  const cards = getMarqueeCards();
+
+  if (!cards.length) return;
+
+  const shellBox =
+    marqueeShell.getBoundingClientRect();
+
+  const shellCentre =
+    shellBox.left + shellBox.width / 2;
+
+  let closestIndex = 0;
+  let closestDistance = Infinity;
+
+  cards.forEach((card, index) => {
+    const cardBox = card.getBoundingClientRect();
+
+    const cardCentre =
+      cardBox.left + cardBox.width / 2;
+
+    const distance =
+      Math.abs(cardCentre - shellCentre);
+
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
+    }
+  });
+
+  marqueeCurrentIndex = closestIndex;
+
+  updateMarqueeActiveState(closestIndex);
+}
+
+
+/* SCROLL ENDED */
+
+function handleMarqueeScroll() {
+  clearTimeout(marqueeScrollTimer);
+
+  marqueeScrollTimer = setTimeout(() => {
+    updateMarqueeIndexFromScroll();
+  }, 100);
+}
+
+
+/* AUTOPLAY: SLIDE → STOP → SLIDE */
+
+function scheduleNextMarqueeSlide() {
+  clearTimeout(marqueeAutoplayTimer);
+
+  if (marqueePaused || document.hidden) return;
+
+  marqueeAutoplayTimer = setTimeout(() => {
+    goToMarqueeSlide(
+      marqueeCurrentIndex + 1,
+      false
+    );
+
+    scheduleNextMarqueeSlide();
+  }, 3200);
+}
+
+
+function startMarqueeAnimation() {
+  if (!marqueeShell || !marqueeTrack) return;
+
+  if (!marqueeShell.dataset.snapReady) {
+    marqueeShell.addEventListener(
+      "scroll",
+      handleMarqueeScroll,
+      { passive: true }
+    );
+
+    marqueeShell.dataset.snapReady = "true";
+  }
+
+  requestAnimationFrame(() => {
+    goToMarqueeSlide(0, false);
+    scheduleNextMarqueeSlide();
   });
 }
 
-function getMarqueeLoopWidth() {
-  return marqueeTrack.scrollWidth / 2;
-}
 
-function normaliseMarqueePosition() {
-  const loopWidth = getMarqueeLoopWidth();
-
-  if (!loopWidth) return;
-
-  if (marqueeAutoPosition >= loopWidth) {
-    marqueeAutoPosition -= loopWidth;
-  } else if (marqueeAutoPosition < 0) {
-    marqueeAutoPosition += loopWidth;
-  }
-
-  marqueeShell.scrollLeft = Math.round(marqueeAutoPosition);
-}
-
-function animateMarquee(timestamp) {
-  if (!marqueeLastTimestamp) marqueeLastTimestamp = timestamp;
-
-  const elapsed = Math.min(timestamp - marqueeLastTimestamp, 40);
-  marqueeLastTimestamp = timestamp;
-
-  if (!marqueePaused && !marqueeDragging) {
-    const pixelsPerSecond = window.innerWidth < 768 ? 48 : 38;
-    marqueeAutoPosition += (pixelsPerSecond * elapsed) / 1000;
-    normaliseMarqueePosition();
-  }
-
-  marqueeAnimationFrame = requestAnimationFrame(animateMarquee);
-}
-
-function startMarqueeAnimation() {
-  if (marqueeAnimationFrame) return;
-
- marqueeAutoPosition = marqueeShell?.scrollLeft || 0;
-  marqueeLastTimestamp = 0;
-  marqueeAnimationFrame = requestAnimationFrame(animateMarquee);
-}
+/* PAUSE / RESUME */
 
 function pauseMarquee() {
   marqueePaused = true;
+
+  clearTimeout(marqueeAutoplayTimer);
+
   marqueeTrack.classList.add("is-paused");
-  clearTimeout(marqueeResumeTimer);
 }
+
 
 function resumeMarquee(delay = 0) {
   clearTimeout(marqueeResumeTimer);
+  clearTimeout(marqueeAutoplayTimer);
 
   marqueeResumeTimer = setTimeout(() => {
     marqueePaused = false;
+
     marqueeTrack.classList.remove("is-paused");
+
+    scheduleNextMarqueeSlide();
   }, delay);
 }
 
-function scrollMarqueeByCard(direction) {
-  const firstCard = marqueeTrack.querySelector(".marquee-card");
-  const trackStyles = window.getComputedStyle(marqueeTrack);
-  const gap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap) || 18;
-  const distance = firstCard ? firstCard.offsetWidth + gap : 320;
 
-  pauseMarquee();
-  marqueeShell.scrollBy({
-    left: distance * direction,
-    behavior: "smooth",
-  });
-
-  setTimeout(normaliseMarqueePosition, 500);
-  resumeMarquee(1400);
-}
+/* DESKTOP MOUSE DRAG */
 
 function beginMarqueeDrag(event) {
-  if (event.pointerType !== "mouse" || event.button !== 0) return;
+  if (
+    event.pointerType !== "mouse" ||
+    event.button !== 0
+  ) {
+    return;
+  }
 
   marqueeDragging = true;
-  marqueePointerStartX = event.clientX;
-  marqueeScrollStart = marqueeShell.scrollLeft;
   marqueeDragDistance = 0;
-  marqueeShell.classList.add("is-dragging");
-  marqueeShell.setPointerCapture(event.pointerId);
+
+  marqueePointerStartX = event.clientX;
+  marqueePointerCurrentX = event.clientX;
+  marqueeScrollStart = marqueeShell.scrollLeft;
+
   pauseMarquee();
 }
+
 
 function moveMarqueeDrag(event) {
   if (!marqueeDragging) return;
 
-  const distance = event.clientX - marqueePointerStartX;
-  marqueeDragDistance = Math.max(marqueeDragDistance, Math.abs(distance));
-  marqueeAutoPosition = marqueeScrollStart - distance;
-  normaliseMarqueePosition();
+  marqueePointerCurrentX = event.clientX;
+
+  const distance =
+    event.clientX - marqueePointerStartX;
+
+  marqueeDragDistance = Math.max(
+    marqueeDragDistance,
+    Math.abs(distance)
+  );
+
+  if (marqueeDragDistance > 8) {
+    marqueeShell.classList.add("is-dragging");
+
+    if (
+      !marqueeShell.hasPointerCapture(event.pointerId)
+    ) {
+      marqueeShell.setPointerCapture(event.pointerId);
+    }
+
+    marqueeShell.scrollLeft =
+      marqueeScrollStart - distance;
+  }
 }
+
 
 function endMarqueeDrag(event) {
   if (!marqueeDragging) return;
 
+  const didDrag = marqueeDragDistance > 8;
+
   marqueeDragging = false;
   marqueeShell.classList.remove("is-dragging");
 
-  if (marqueeShell.hasPointerCapture(event.pointerId)) {
-    marqueeShell.releasePointerCapture(event.pointerId);
+  if (
+    marqueeShell.hasPointerCapture(event.pointerId)
+  ) {
+    marqueeShell.releasePointerCapture(
+      event.pointerId
+    );
   }
 
-  resumeMarquee(1100);
+  if (didDrag) {
+    updateMarqueeIndexFromScroll();
+
+    goToMarqueeSlide(
+      marqueeCurrentIndex,
+      false
+    );
+
+    resumeMarquee(4200);
+  } else {
+    resumeMarquee(500);
+  }
 }
 function openCookieDetails(c) {
   modalCookieImage.src = c.image;
@@ -800,13 +1048,12 @@ function updateCart() {
   cartSelectedCount.textContent = String(total);
 
   if (!currentOrder) {
-   cartEmptyState.hidden = true;
-  cartContent.hidden = false;
-  checkoutButton.disabled = false;
-    cartOrderSummary.innerHTML = "";
-    return;
-  }
-
+  cartEmptyState.hidden = false;
+  cartContent.hidden = true;
+  checkoutButton.disabled = true;
+  cartOrderSummary.innerHTML = "";
+  return;
+}
   cartEmptyState.hidden = true;
   cartContent.hidden = false;
   checkoutButton.disabled = false;
