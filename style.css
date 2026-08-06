@@ -367,17 +367,28 @@ img {
   color: var(--ink);
 }
 
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .hero-section {
   background: #ffffff;
+   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .hero-cookie-area {
   position: relative;
+overflow: hidden;
   display: grid;
   place-items: center;
   min-height: 330px;
   padding: 40px 20px 16px;
-
+   
   background:
     radial-gradient(
       circle at 50% 45%,
@@ -385,7 +396,7 @@ img {
       rgba(255,245,231,.35) 45%,
       rgba(255,255,255,0) 75%
     );
-
+   
   isolation: isolate;
 }
 
